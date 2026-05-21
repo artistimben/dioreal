@@ -9,10 +9,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url('css/base.css?v=2') }}">
-    <link rel="stylesheet" href="{{ url('css/nav-footer.css?v=2') }}">
-    <link rel="stylesheet" href="{{ url('css/components.css?v=2') }}">
-    <link rel="stylesheet" href="{{ url('css/about.css?v=2') }}">
+    <link rel="stylesheet" href="{{ url('css/base.css?v={{ time() }}') }}">
+    <link rel="stylesheet" href="{{ url('css/nav-footer.css?v={{ time() }}') }}">
+    <link rel="stylesheet" href="{{ url('css/components.css?v={{ time() }}') }}">
+    <link rel="stylesheet" href="{{ url('css/about.css?v={{ time() }}') }}">
     <style>
         .detail-hero { width: 100%; height: 60vh; background-size: cover; background-position: center; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; color: #fff; }
         .detail-hero::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.5); }

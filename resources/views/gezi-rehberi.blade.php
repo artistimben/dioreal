@@ -9,10 +9,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/base.css?v=2">
-    <link rel="stylesheet" href="css/nav-footer.css?v=2">
-    <link rel="stylesheet" href="css/components.css?v=2">
-    <link rel="stylesheet" href="css/about.css?v=2">
+    <link rel="stylesheet" href="css/base.css?v={{ time() }}">
+    <link rel="stylesheet" href="css/nav-footer.css?v={{ time() }}">
+    <link rel="stylesheet" href="css/components.css?v={{ time() }}">
+    <link rel="stylesheet" href="css/about.css?v={{ time() }}">
 </head>
 <body>
     <nav id="mainNav">
@@ -139,9 +139,9 @@
         </div>
         <div class="footer-bottom"><span>© 2026 Dioreal Dijital. All Rights Reserved.</span><span>Est. 15 Years of Experience</span></div>
     </footer>
-    <script src="js/i18n.js?v=2"></script>
-    <script src="js/common.js?v=2"></script>
-    <script src="js/nav.js?v=2"></script>
+    <script src="js/i18n.js?v={{ time() }}"></script>
+    <script src="js/common.js?v={{ time() }}"></script>
+    <script src="js/nav.js?v={{ time() }}"></script>
     <script>
         const DEFAULT_GUIDE_PAGE = [
             { id:1, title:{tr:'Bodrum Komple Rehber', en:'Bodrum Complete Guide'}, tag:{tr:'Destinasyon Rehberi', en:'Destination Guide'}, img:'foto.img/bodrum.jpg', desc:{ tr:"Gidilecek plajlar, gece hayatı, en iyi restoranlar ve gizli koylar. Bodrum'da yapılacak her şey.", en:"Beaches to go, night life, best restaurants and hidden bays. Everything to do in Bodrum." } },

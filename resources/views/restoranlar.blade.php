@@ -9,10 +9,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/base.css?v=2">
-    <link rel="stylesheet" href="css/nav-footer.css?v=2">
-    <link rel="stylesheet" href="css/components.css?v=2">
-    <link rel="stylesheet" href="css/about.css?v=2">
+    <link rel="stylesheet" href="css/base.css?v={{ time() }}">
+    <link rel="stylesheet" href="css/nav-footer.css?v={{ time() }}">
+    <link rel="stylesheet" href="css/components.css?v={{ time() }}">
+    <link rel="stylesheet" href="css/about.css?v={{ time() }}">
 </head>
 <body>
     <nav id="mainNav">
@@ -87,7 +87,7 @@
         <div class="card-grid" id="restCardsGrid">
             @foreach($restoranlar as $r)
                 <div class="card reveal visible">
-                    <div class="card-img" style="background-image:url("{{ asset($r->img) }}")"></div>
+                    <div class="card-img" style="background-image:url('{{ asset($r->img) }}')"></div>
                     <div class="card-body">
                         <span class="card-tag lang-text-tr">{{ $r->tag["tr"] ?? "" }}</span>
                         <span class="card-tag lang-text-en" style="display:none;">{{ $r->tag["en"] ?? "" }}</span>
@@ -124,9 +124,9 @@
         </div>
         <div class="footer-bottom"><span>© 2026 Dioreal Dijital. All Rights Reserved.</span><span>Est. 15 Years of Experience</span></div>
     </footer>
-    <script src="js/i18n.js?v=2"></script>
-    <script src="js/common.js?v=2"></script>
-    <script src="js/nav.js?v=2"></script>
+    <script src="js/i18n.js?v={{ time() }}"></script>
+    <script src="js/common.js?v={{ time() }}"></script>
+    <script src="js/nav.js?v={{ time() }}"></script>
     <script>
         const DEFAULT_RESTS_PAGE = [
             { id:1, name:{tr:'Mikla', en:'Mikla'}, tag:{tr:'İstanbul · Fine Dining', en:'Istanbul · Fine Dining'}, img:'foto.img/rest_mikla.jpg', desc:{ tr:"Boğaz manzarasına hâkim terası ve Türk-İskandinav mutfağı füzyonuyla İstanbul'un efsanevi adresi.", en:"Istanbul's legendary address with its Bosphorus terrace and Turkish-Scandinavian fusion cuisine." } },

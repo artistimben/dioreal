@@ -14,10 +14,10 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600&family=Oswald:wght@500;600&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="css/base.css?v=2">
-    <link rel="stylesheet" href="css/nav-footer.css?v=2">
-    <link rel="stylesheet" href="css/components.css?v=2">
-    <link rel="stylesheet" href="css/about.css?v=2">
+    <link rel="stylesheet" href="css/base.css?v={{ time() }}">
+    <link rel="stylesheet" href="css/nav-footer.css?v={{ time() }}">
+    <link rel="stylesheet" href="css/components.css?v={{ time() }}">
+    <link rel="stylesheet" href="css/about.css?v={{ time() }}">
 </head>
 
 <body>
@@ -108,7 +108,7 @@
         <div class="card-grid" id="hotelCardsGrid">
             @foreach($oteller as $otel)
                 <div class="card reveal visible">
-                    <div class="card-img" style="background-image:url("{{ asset($otel->img) }}")"></div>
+                    <div class="card-img" style="background-image:url('{{ asset($otel->img) }}')"></div>
                     <div class="card-body">
                         <span class="card-tag lang-text-tr">{{ $otel->tag["tr"] ?? "" }}</span>
                         <span class="card-tag lang-text-en" style="display:none;">{{ $otel->tag["en"] ?? "" }}</span>
@@ -181,9 +181,9 @@
         </div>
     </footer>
 
-    <script src="js/i18n.js?v=2"></script>
-    <script src="js/common.js?v=2"></script>
-    <script src="js/nav.js?v=2"></script>
+    <script src="js/i18n.js?v={{ time() }}"></script>
+    <script src="js/common.js?v={{ time() }}"></script>
+    <script src="js/nav.js?v={{ time() }}"></script>
     <script>
         const DEFAULT_HOTELS_PAGE = [
             { id: 1, name: { tr: 'Maxx Royal Bodrum', en: 'Maxx Royal Bodrum' }, tag: { tr: 'Bodrum, Türkiye', en: 'Bodrum, Turkey' }, img: 'foto.img/otel_maxx_royal.jpg', desc: { tr: 'Eşsiz Ege manzarası ve ultra-lüks tesisleriyle benzersiz bir deneyim sunan 5 yıldızlı resort.', en: 'A 5-star resort offering a unique experience with stunning Aegean views and ultra-luxury facilities.' } },
