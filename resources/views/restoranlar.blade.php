@@ -128,6 +128,7 @@
                         <span class="card-tag">${r.tag[l] || r.tag.tr || r.tag}</span>
                         <h3 class="card-title">${r.name[l] || r.name.tr || r.name}</h3>
                         <p class="card-desc">${r.desc[l] || r.desc.tr}</p>
+                        <a href="${getBaseUrl()}/restoran/${r.id}" class="btn btn-primary" style="margin-top:1rem; padding: 0.5rem 1rem;">Detayları İncele</a>
                     </div>
                 </div>
             `).join('');

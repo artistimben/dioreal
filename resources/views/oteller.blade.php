@@ -185,6 +185,7 @@
                         <span class="card-tag">${h.tag[l] || h.tag.tr || h.tag}</span>
                         <h3 class="card-title">${h.name[l] || h.name.tr || h.name}</h3>
                         <p class="card-desc">${h.desc[l] || h.desc.tr}</p>
+                        <a href="${getBaseUrl()}/otel/${h.id}" class="btn btn-primary" style="margin-top:1rem; padding: 0.5rem 1rem;">Detayları İncele</a>
                     </div>
                 </div>
             `).join('');
