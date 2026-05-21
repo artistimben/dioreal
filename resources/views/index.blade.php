@@ -14,10 +14,10 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600&family=Oswald:wght@500;600&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/nav-footer.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/base.css?v=2">
+    <link rel="stylesheet" href="css/nav-footer.css?v=2">
+    <link rel="stylesheet" href="css/components.css?v=2">
+    <link rel="stylesheet" href="css/home.css?v=2">
 </head>
 
 <body>
@@ -494,10 +494,10 @@
             <span>Est. 15 Years of Experience</span>
         </div>
     </footer>
-    <script src="js/i18n.js"></script>
-    <script src="js/common.js"></script>
-    <script src="js/nav.js"></script>
-    <script src="js/home.js"></script>
+    <script src="js/i18n.js?v=2"></script>
+    <script src="js/common.js?v=2"></script>
+    <script src="js/nav.js?v=2"></script>
+    <script src="js/home.js?v=2"></script>
     <script>
         /* ── Referanslar dinamik ── */
         const _svgLogo = (text, font, style, size) =>
