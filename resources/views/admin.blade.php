@@ -1293,7 +1293,11 @@
                 const tagTr  = (h.tag && typeof h.tag === 'object') ? h.tag.tr : (h.tag || '');
                 const tagEn  = (h.tag && typeof h.tag === 'object') ? h.tag.en : '';
                 const descTr = (h.desc && typeof h.desc === 'object') ? h.desc.tr : (h.desc || '');
+
                 const descEn = (h.desc && typeof h.desc === 'object') ? h.desc.en : '';
+                const longDescTr = (h.long_desc && typeof h.long_desc === 'object') ? h.long_desc.tr : (h.long_desc || '');
+                const longDescEn = (h.long_desc && typeof h.long_desc === 'object') ? h.long_desc.en : '';
+
 
                 return `
                 <div class="mgr-item" id="hotel-item-${h.id}">
@@ -1317,7 +1321,17 @@
                             <div class="mgr-field"><label>Görsel Yolu</label><input type="text" value="${h.img}" oninput="updateHotelField(${h.id},'img',this.value)"></div>
                             <div class="mgr-field"><label>Görsel Değiştir</label><input type="file" accept="image/*" onchange="replaceHotelImg(${h.id},this)"></div>
                             <div class="mgr-field"><label>Açıklama (TR)</label><textarea oninput="updateHotelDesc(${h.id},'tr',this.value)">${descTr}</textarea></div>
+
                             <div class="mgr-field"><label>Açıklama (EN)</label><textarea oninput="updateHotelDesc(${h.id},'en',this.value)">${descEn}</textarea></div>
+                            <div class="mgr-field" style="grid-column:1/-1;"><label>Detay Sayfası Uzun Açıklama (TR)</label><textarea style="height:120px;" oninput="updateHotelSubField(${h.id},'long_desc','tr',this.value)">${longDescTr}</textarea></div>
+                            <div class="mgr-field" style="grid-column:1/-1;"><label>Detay Sayfası Uzun Açıklama (EN)</label><textarea style="height:120px;" oninput="updateHotelSubField(${h.id},'long_desc','en',this.value)">${longDescEn}</textarea></div>
+                            <div class="mgr-field" style="grid-column:1/-1;"><label>Galeri (Yeni Resim Ekle)</label><input type="file" accept="image/*" onchange="addHotelGalleryImg(${h.id},this)"></div>
+                            <div class="mgr-field" style="grid-column:1/-1;">
+                                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                                    ${(h.gallery || []).map((g, idx) => `<div style="position:relative;"><img src="${g}" style="width:80px;height:80px;object-fit:cover;border-radius:4px;"><button type="button" onclick="removeHotelGalleryImg(${h.id},${idx})" style="position:absolute;top:0;right:0;background:red;color:white;border:none;cursor:pointer;width:20px;height:20px;border-radius:50%;font-size:10px;">X</button></div>`).join('')}
+                                </div>
+                            </div>
+
                         </div>
                         <button class="btn btn-primary" style="margin-top:0.5rem;" onclick="saveHotels();toggleEditHotel(${h.id})"><i class="fas fa-save"></i> Kaydet</button>
                     </div>
@@ -1341,6 +1355,26 @@
             if (h) {
                 if (typeof h.desc !== 'object') h.desc = { tr: h.desc || '', en: '' };
                 h.desc[lang] = val;
+            }
+        }
+        function addHotelGalleryImg(id, input) {
+            const file = input.files[0]; if (!file) return;
+            const reader = new FileReader();
+            reader.onload = e => {
+                const h = hotelsData.find(x => x.id === id);
+                if (h) {
+                    if (!h.gallery) h.gallery = [];
+                    h.gallery.push(e.target.result);
+                    renderHotelsList(); toggleEditHotel(id); showToast('Galeri resmi eklendi!');
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+        function removeHotelGalleryImg(id, idx) {
+            const h = hotelsData.find(x => x.id === id);
+            if (h && h.gallery) {
+                h.gallery.splice(idx, 1);
+                renderHotelsList(); toggleEditHotel(id); showToast('Galeri resmi silindi!');
             }
         }
         function replaceHotelImg(id, input) {
@@ -1393,7 +1427,11 @@
                 const tagTr  = (r.tag && typeof r.tag === 'object') ? r.tag.tr : (r.tag || '');
                 const tagEn  = (r.tag && typeof r.tag === 'object') ? r.tag.en : '';
                 const descTr = (r.desc && typeof r.desc === 'object') ? r.desc.tr : (r.desc || '');
+
                 const descEn = (r.desc && typeof r.desc === 'object') ? r.desc.en : '';
+                const longDescTr = (r.long_desc && typeof r.long_desc === 'object') ? r.long_desc.tr : (r.long_desc || '');
+                const longDescEn = (r.long_desc && typeof r.long_desc === 'object') ? r.long_desc.en : '';
+
 
                 return `
                 <div class="mgr-item" id="rest-item-${r.id}">
@@ -1417,7 +1455,17 @@
                             <div class="mgr-field"><label>Görsel Yolu</label><input type="text" value="${r.img}" oninput="updateRestField(${r.id},'img',this.value)"></div>
                             <div class="mgr-field"><label>Görsel Değiştir</label><input type="file" accept="image/*" onchange="replaceRestImg(${r.id},this)"></div>
                             <div class="mgr-field"><label>Açıklama (TR)</label><textarea oninput="updateRestDesc(${r.id},'tr',this.value)">${descTr}</textarea></div>
+
                             <div class="mgr-field"><label>Açıklama (EN)</label><textarea oninput="updateRestDesc(${r.id},'en',this.value)">${descEn}</textarea></div>
+                            <div class="mgr-field" style="grid-column:1/-1;"><label>Detay Sayfası Uzun Açıklama (TR)</label><textarea style="height:120px;" oninput="updateRestSubField(${r.id},'long_desc','tr',this.value)">${longDescTr}</textarea></div>
+                            <div class="mgr-field" style="grid-column:1/-1;"><label>Detay Sayfası Uzun Açıklama (EN)</label><textarea style="height:120px;" oninput="updateRestSubField(${r.id},'long_desc','en',this.value)">${longDescEn}</textarea></div>
+                            <div class="mgr-field" style="grid-column:1/-1;"><label>Galeri (Yeni Resim Ekle)</label><input type="file" accept="image/*" onchange="addRestGalleryImg(${r.id},this)"></div>
+                            <div class="mgr-field" style="grid-column:1/-1;">
+                                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                                    ${(r.gallery || []).map((g, idx) => `<div style="position:relative;"><img src="${g}" style="width:80px;height:80px;object-fit:cover;border-radius:4px;"><button type="button" onclick="removeRestGalleryImg(${r.id},${idx})" style="position:absolute;top:0;right:0;background:red;color:white;border:none;cursor:pointer;width:20px;height:20px;border-radius:50%;font-size:10px;">X</button></div>`).join('')}
+                                </div>
+                            </div>
+
                         </div>
                         <button class="btn btn-primary" style="margin-top:0.5rem;" onclick="saveRestaurants();toggleEditRest(${r.id})"><i class="fas fa-save"></i> Kaydet</button>
                     </div>
@@ -1441,6 +1489,26 @@
             if (r) {
                 if (typeof r.desc !== 'object') r.desc = { tr: r.desc || '', en: '' };
                 r.desc[lang] = val;
+            }
+        }
+        function addRestGalleryImg(id, input) {
+            const file = input.files[0]; if (!file) return;
+            const reader = new FileReader();
+            reader.onload = e => {
+                const r = restaurantsData.find(x => x.id === id);
+                if (r) {
+                    if (!r.gallery) r.gallery = [];
+                    r.gallery.push(e.target.result);
+                    renderRestaurantsList(); toggleEditRest(id); showToast('Galeri resmi eklendi!');
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+        function removeRestGalleryImg(id, idx) {
+            const r = restaurantsData.find(x => x.id === id);
+            if (r && r.gallery) {
+                r.gallery.splice(idx, 1);
+                renderRestaurantsList(); toggleEditRest(id); showToast('Galeri resmi silindi!');
             }
         }
         function replaceRestImg(id, input) {
