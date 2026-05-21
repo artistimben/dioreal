@@ -1194,7 +1194,7 @@
         /* ── LOAD / SAVE ── */
         function loadGuides() {
             const s = DioAPI.loadSync('dioreal_guide_data');
-            guideData = s ? JSON.parse(JSON.stringify(s)) : JSON.parse(JSON.stringify(DEFAULT_GUIDE));
+            guideData = (s && Array.isArray(s)) ? JSON.parse(JSON.stringify(s)) : JSON.parse(JSON.stringify(DEFAULT_GUIDE));
         }
         function saveGuides() {
             DioAPI.save('dioreal_guide_data', guideData, function() {
@@ -1204,7 +1204,7 @@
         }
         function loadEvents() {
             const s = DioAPI.loadSync('dioreal_events_data');
-            eventsData = s ? JSON.parse(JSON.stringify(s)) : JSON.parse(JSON.stringify(DEFAULT_EVENTS));
+            eventsData = (s && Array.isArray(s)) ? JSON.parse(JSON.stringify(s)) : JSON.parse(JSON.stringify(DEFAULT_EVENTS));
         }
         function saveEvents() {
             DioAPI.save('dioreal_events_data', eventsData, function() {
@@ -1214,7 +1214,7 @@
         }
         function loadJournal() {
             const s = DioAPI.loadSync('dioreal_journal_data');
-            journalData = s ? JSON.parse(JSON.stringify(s)) : JSON.parse(JSON.stringify(DEFAULT_JOURNAL));
+            journalData = (s && Array.isArray(s)) ? JSON.parse(JSON.stringify(s)) : JSON.parse(JSON.stringify(DEFAULT_JOURNAL));
         }
         function saveJournal() {
             DioAPI.save('dioreal_journal_data', journalData, function() {
@@ -1224,7 +1224,7 @@
         }
         function loadHotels() {
             const s = DioAPI.loadSync('dioreal_hotels_data');
-            hotelsData = s ? JSON.parse(JSON.stringify(s)) : JSON.parse(JSON.stringify(DEFAULT_HOTELS));
+            hotelsData = (s && Array.isArray(s)) ? JSON.parse(JSON.stringify(s)) : JSON.parse(JSON.stringify(DEFAULT_HOTELS));
         }
         function saveHotels() {
             DioAPI.save('dioreal_hotels_data', hotelsData, function() {
@@ -1234,7 +1234,7 @@
         }
         function loadYachts() {
             const s = DioAPI.loadSync('dioreal_yachts_data');
-            yachtsData = s ? JSON.parse(JSON.stringify(s)) : JSON.parse(JSON.stringify(DEFAULT_YACHTS));
+            yachtsData = (s && Array.isArray(s)) ? JSON.parse(JSON.stringify(s)) : JSON.parse(JSON.stringify(DEFAULT_YACHTS));
         }
         function saveYachts() {
             DioAPI.save('dioreal_yachts_data', yachtsData, function() {
@@ -1244,7 +1244,7 @@
         }
         function loadRestaurants() {
             const s = DioAPI.loadSync('dioreal_restaurants_data');
-            restaurantsData = s ? JSON.parse(JSON.stringify(s)) : JSON.parse(JSON.stringify(DEFAULT_RESTAURANTS));
+            restaurantsData = (s && Array.isArray(s)) ? JSON.parse(JSON.stringify(s)) : JSON.parse(JSON.stringify(DEFAULT_RESTAURANTS));
         }
         function saveRestaurants() {
             DioAPI.save('dioreal_restaurants_data', restaurantsData, function() {
@@ -1254,7 +1254,7 @@
         }
         function loadRefs() {
             const s = DioAPI.loadSync('dioreal_refs_data');
-            refsData = s ? JSON.parse(JSON.stringify(s)) : JSON.parse(JSON.stringify(DEFAULT_REFS));
+            refsData = (s && Array.isArray(s)) ? JSON.parse(JSON.stringify(s)) : JSON.parse(JSON.stringify(DEFAULT_REFS));
         }
         function saveRefs() {
             DioAPI.save('dioreal_refs_data', refsData, function() {
@@ -1263,7 +1263,7 @@
         }
         function loadContact() {
             const s = DioAPI.loadSync('dioreal_contact_data');
-            contactData = s ? JSON.parse(JSON.stringify(s)) : JSON.parse(JSON.stringify(DEFAULT_CONTACT));
+            contactData = (s && typeof s === "object" && !Array.isArray(s)) ? JSON.parse(JSON.stringify(s)) : JSON.parse(JSON.stringify(DEFAULT_CONTACT));
         }
         function saveContact() {
             contactData.email       = document.getElementById('cont-email').value;
@@ -1961,7 +1961,7 @@
         
         function loadMedia() {
             const s = DioAPI.loadSync('dioreal_media_data');
-            allMedia = s ? JSON.parse(JSON.stringify(s)) : JSON.parse(JSON.stringify(DEFAULT_MEDIA));
+            allMedia = (s && Array.isArray(s)) ? JSON.parse(JSON.stringify(s)) : JSON.parse(JSON.stringify(DEFAULT_MEDIA));
         }
         
         function saveMedia() {
