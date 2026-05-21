@@ -128,8 +128,8 @@ class ApiController extends Controller
                                 
                                 File::put($filepath, $decoded);
                                 
-                                // Replace base64 with URL path
-                                $value = '/storage/uploads/' . $filename;
+                                // Replace base64 with URL path using url() helper to support subfolders
+                                $value = url('/storage/uploads/' . $filename);
                             }
                         }
                     }

@@ -6,6 +6,11 @@ window.DioAPI = (function() {
     function _ls(k)   { try { var s=localStorage.getItem(k); return s ? JSON.parse(s) : null; } catch(e){ return null; } }
     function _save(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
 
+    function getBaseUrl() {
+        var meta = document.querySelector('meta[name="base-url"]');
+        return meta ? meta.getAttribute('content') : '';
+    }
+
     function _normalize(key, data) {
         if (data && typeof data === 'object' && !Array.isArray(data)) {
             var listKeys = [
@@ -47,7 +52,7 @@ window.DioAPI = (function() {
         if (isLocal) return _normalize(key, fallback);
         try {
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/api/load?key='+_key(key)+'&t='+Date.now(), false); // synchronous
+            xhr.open('GET', getBaseUrl() + '/api/load?key='+_key(key)+'&t='+Date.now(), false); // synchronous
             xhr.send(null);
             if (xhr.status === 200) {
                 var t = (xhr.responseText || '').trim();
@@ -68,7 +73,7 @@ window.DioAPI = (function() {
     // LOAD ASYNC: Sayfa render sonrası re-render için
     function loadAsync(key, callback) {
         if (isLocal) { callback(_normalize(key, _ls(key))); return; }
-        fetch('/api/load?key='+_key(key)+'&t='+Date.now())
+        fetch(getBaseUrl() + '/api/load?key='+_key(key)+'&t='+Date.now())
             .then(function(r){ return r.text(); })
             .then(function(t){
                 if (t && t.trim() !== 'null' && t.charAt(0) !== '<') {
@@ -91,7 +96,7 @@ window.DioAPI = (function() {
                 headers['X-CSRF-TOKEN'] = csrfMeta.getAttribute('content');
             }
 
-            fetch('/api/save?key='+_key(key), {
+            fetch(getBaseUrl() + '/api/save?key='+_key(key), {
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify(data)
