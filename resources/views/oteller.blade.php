@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oteller — Dioreal Dijital</title>
+    <meta name="description"
+        content="Türkiye ve dünyada seçkin, lüks oteller. Dioreal Dijital tarafından özenle seçilmiş premium konaklama deneyimleri.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600&family=Oswald:wght@500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/nav-footer.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/about.css">
+</head>
+
+<body>
+
+    <!-- Desktop Nav -->
+    <nav id="mainNav">
+        <div class="nav-logo-wrapper">
+            <a href="index.html" class="nav-logo">
+                <img src="foto.img/logo_dioreal.png" alt="Logo">
+                <span class="logo-text">DIOREAL.</span>
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" data-i18n="nav_home">Ana Sayfa</a></li>
+            <li><a href="hakkimizda.html" data-i18n="nav_about">Hakkımızda</a></li>
+            <li><a href="oteller.html" class="active-page" data-i18n="nav_hotels">Oteller</a></li>
+            <li><a href="yatlar.html" data-i18n="nav_yachts">Yatlar</a></li>
+            <li><a href="restoranlar.html" data-i18n="nav_restaurants">Restoranlar</a></li>
+            <li><a href="gezi-rehberi.html" data-i18n="nav_guide">Gezi Rehberi</a></li>
+            <li><a href="etkinlikler.html" data-i18n="nav_events">Etkinlikler</a></li>
+            <li><a href="journal.html" data-i18n="nav_journal">Journal</a></li>
+        </ul>
+        <div class="nav-right">
+            <div class="lang-switch desk-lang">
+                <span id="lang-tr" class="lang-btn active">TR</span>
+                <span>|</span>
+                <span id="lang-en" class="lang-btn">EN</span>
+            </div>
+            <div class="hamburger" id="hamb">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Fullscreen Menu -->
+    <div class="fs-menu" id="fsMenu">
+        <ul class="fs-links">
+            <li><a href="index.html" data-i18n="nav_home">Ana Sayfa</a></li>
+            <li><a href="hakkimizda.html" data-i18n="nav_about">Hakkımızda</a></li>
+            <li><a href="oteller.html" data-i18n="nav_hotels">Oteller</a></li>
+            <li><a href="yatlar.html" data-i18n="nav_yachts">Yatlar</a></li>
+            <li><a href="restoranlar.html" data-i18n="nav_restaurants">Restoranlar</a></li>
+            <div class="fs-divider"></div>
+            <li><a href="gezi-rehberi.html" data-i18n="nav_guide">Gezi Rehberi</a></li>
+            <li><a href="etkinlikler.html" data-i18n="nav_events">Etkinlikler</a></li>
+            <li><a href="journal.html" data-i18n="nav_journal">Journal</a></li>
+            <li style="font-size: 1.5rem; font-family: var(--font-display); margin-top: 2rem;">
+                <span id="lang-tr-fs" class="lang-btn active">TR</span> | <span id="lang-en-fs"
+                    class="lang-btn">EN</span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Page Hero -->
+    <div class="page-hero" style="background-image: url('foto.img/otel_hero.jpg');">
+        <div class="page-hero-content">
+            <span class="page-eyebrow" data-i18n="otel_hero_eye">Premium Konaklama</span>
+            <h1 class="page-title">Seçkin <em>Oteller</em></h1>
+        </div>
+    </div>
+
+    <!-- Intro Section -->
+    <section class="content-section">
+        <div class="content-grid">
+            <div class="reveal">
+                <span class="content-eyebrow" data-i18n="otel_exp_eye">Deneyim Tasarımı</span>
+                <h2 class="content-title" data-i18n="otel_exp_title">Her konaklamanın bir <em>hikayesi</em> vardır</h2>
+                <p class="content-body" data-i18n="otel_exp_p1">Dünyaca ünlü butik oteller, tarihi yapılar ve ultra-lüks
+                    resort'lardan oluşan koleksiyonumuz, seyahatinizin her anını unutulmaz kılmak için özenle
+                    seçilmiştir. Sadece bir oda değil; bir atmosfer, bir his, bir deneyim sunuyoruz.</p>
+                <a href="#oteller" class="btn btn-primary" data-i18n="btn_discover_col">Koleksiyonu Keşfet</a>
+            </div>
+            <div class="reveal" style="transition-delay: 0.2s;">
+                <img src="foto.img/otel_oda.jpg" alt="Lüks Otel"
+                    style="width:100%; aspect-ratio: 4/3; object-fit: cover;">
+            </div>
+        </div>
+    </section>
+
+    <!-- Hotels Grid -->
+    <section class="content-section alt" id="oteller">
+        <div style="text-align: center; margin-bottom: 4rem;">
+            <span class="content-eyebrow" style="justify-content: center; display: block;"
+                data-i18n="otel_col_eye">Seçkin Koleksiyon</span>
+            <h2 class="content-title" style="font-size: clamp(2rem, 4vw, 3rem);" data-i18n="otel_col_title">Öne Çıkan
+                <em>Oteller</em></h2>
+        </div>
+        <div class="card-grid" id="hotelCardsGrid"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="iletisim">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="footer-logo">DIOREAL.</div>
+                <p class="footer-p" data-i18n="footer_p">Seçkin destinasyonları ve premium markaları doğru kitleyle
+                    buluşturan medya platformu.</p>
+                <a href="https://wa.me/905320000000" class="whatsapp-cta">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path
+                            d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" />
+                    </svg>
+                    <span data-i18n="btn_contact_wa">WhatsApp İletişim</span>
+                </a>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_pages">Sayfalar</h4>
+                <ul class="footer-links">
+                    <li><a href="hakkimizda.html" data-i18n="nav_about">Hakkımızda</a></li>
+                    <li><a href="oteller.html" data-i18n="nav_hotels">Oteller</a></li>
+                    <li><a href="yatlar.html" data-i18n="nav_yachts">Yatlar</a></li>
+                    <li><a href="restoranlar.html" data-i18n="nav_restaurants">Restoranlar</a></li>
+                    <li><a href="journal.html" data-i18n="nav_journal">Journal</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_serv">Hizmetler</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Balayı Paketleri</a></li>
+                    <li><a href="#">Aile Tatilleri</a></li>
+                    <li><a href="#">Macera Turları</a></li>
+                    <li><a href="#">Kültür Gezileri</a></li>
+                    <li><a href="#">Özel Jet Hizmetleri</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_contact">İletişim</h4>
+                <ul class="footer-links">
+                    <li><a href="mailto:info@diorealdijital.com">info@diorealdijital.com</a></li>
+                    <li><a href="tel:+902125550100">+90 212 555 0100</a></li>
+                    <li data-i18n="cont_ist">İstanbul, Türkiye</li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 Dioreal Dijital. All Rights Reserved.</span>
+            <span>Est. 15 Years of Experience</span>
+        </div>
+    </footer>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/nav.js"></script>
+    <script>
+        const DEFAULT_HOTELS_PAGE = [
+            { id: 1, name: { tr: 'Maxx Royal Bodrum', en: 'Maxx Royal Bodrum' }, tag: { tr: 'Bodrum, Türkiye', en: 'Bodrum, Turkey' }, img: 'foto.img/otel_maxx_royal.jpg', desc: { tr: 'Eşsiz Ege manzarası ve ultra-lüks tesisleriyle benzersiz bir deneyim sunan 5 yıldızlı resort.', en: 'A 5-star resort offering a unique experience with stunning Aegean views and ultra-luxury facilities.' } },
+            { id: 2, name: { tr: 'Museum Hotel', en: 'Museum Hotel' }, tag: { tr: 'Kapadokya, Türkiye', en: 'Cappadocia, Turkey' }, img: 'foto.img/otel_museum.jpg', desc: { tr: 'Antik kaya oymaları içinde, tarihin derinliklerinde unutulmaz bir konaklama deneyimi.', en: 'An unforgettable stay deep in history, inside ancient rock carvings.' } },
+            { id: 3, name: { tr: 'Hillside Beach Club', en: 'Hillside Beach Club' }, tag: { tr: 'Fethiye, Türkiye', en: 'Fethiye, Turkey' }, img: 'foto.img/otel_hillside.jpg', desc: { tr: "Özel plajı, eşsiz koyu ve lüks hizmetleriyle Türkiye'nin en prestijli tatil köyü.", en: "Turkey's most prestigious resort with its private beach, unique bay and luxury services." } },
+            { id: 4, name: { tr: 'Soneva Jani', en: 'Soneva Jani' }, tag: { tr: 'Maldivler', en: 'Maldives' }, img: 'foto.img/otel_soneva.jpg', desc: { tr: 'Su üstü villalar, kristal berraklığında lagün ve sonsuz gökyüzü altında rüya konaklama.', en: 'Overwater villas, crystal-clear lagoon and dream accommodation under endless skies.' } },
+            { id: 5, name: { tr: 'Aman Kyoto', en: 'Aman Kyoto' }, tag: { tr: 'Japonya', en: 'Japan' }, img: 'foto.img/otel_aman.jpg', desc: { tr: 'Japon wabi-sabi felsefesini modern lüksle harmanlayan, orman içinde saklı benzersiz bir sığınak.', en: "A unique retreat hidden in the forest, blending Japan's wabi-sabi philosophy with modern luxury." } },
+            { id: 6, name: { tr: 'Le Sirenuse', en: 'Le Sirenuse' }, tag: { tr: 'Amalfi Kıyısı, İtalya', en: 'Amalfi Coast, Italy' }, img: 'foto.img/otel_sirenuse.jpg', desc: { tr: "Positano'nun ikonik manzarası karşısında, denizi ve bougainvillea'ları izleyen efsanevi butik otel.", en: "Legendary boutique hotel overlooking the sea and bougainvilleas, facing Positano's iconic view." } }
+        ];
+
+        function buildHotelCards(lang) {
+            const data = DioAPI.loadSync('dioreal_hotels_data') || DEFAULT_HOTELS_PAGE;
+            const l = lang || localStorage.getItem('dioreal_lang') || 'tr';
+            const grid = document.getElementById('hotelCardsGrid');
+            if (!grid) return;
+            grid.innerHTML = data.map(h => `
+                <div class="card reveal visible">
+                    <div class="card-img" style="background-image:url('${h.img}')"></div>
+                    <div class="card-body">
+                        <span class="card-tag">${h.tag[l] || h.tag.tr || h.tag}</span>
+                        <h3 class="card-title">${h.name[l] || h.name.tr || h.name}</h3>
+                        <p class="card-desc">${h.desc[l] || h.desc.tr}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+        buildHotelCards();
+        // Sayfa yüklendikten sonra sunucudan taze veri çek ve yeniden render et
+        DioAPI.loadAsync('dioreal_hotels_data', function(data) {
+            if (data && Array.isArray(data)) buildHotelCards();
+        });
+        document.addEventListener('langChanged', function (e) { buildHotelCards(e.detail); });
+    </script>
+</body>
+
+</html>
