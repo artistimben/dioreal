@@ -84,7 +84,28 @@
             <span class="content-eyebrow" style="display:block;" data-i18n="rest_col_eye">Koleksiyon</span>
             <h2 class="content-title" style="font-size:clamp(2rem,4vw,3rem);" data-i18n="rest_col_title">Öne Çıkan <em>Masalar</em></h2>
         </div>
-        <div class="card-grid" id="restCardsGrid"></div>
+        <div class="card-grid" id="restCardsGrid">
+            @foreach($restoranlar as $r)
+                <div class="card reveal visible">
+                    <div class="card-img" style="background-image:url("{{ asset($r->img) }}")"></div>
+                    <div class="card-body">
+                        <span class="card-tag lang-text-tr">{{ $r->tag["tr"] ?? "" }}</span>
+                        <span class="card-tag lang-text-en" style="display:none;">{{ $r->tag["en"] ?? "" }}</span>
+                        
+                        <h3 class="card-title lang-text-tr">{{ $r->name["tr"] ?? "" }}</h3>
+                        <h3 class="card-title lang-text-en" style="display:none;">{{ $r->name["en"] ?? "" }}</h3>
+                        
+                        <p class="card-desc lang-text-tr">{{ $r->desc["tr"] ?? "" }}</p>
+                        <p class="card-desc lang-text-en" style="display:none;">{{ $r->desc["en"] ?? "" }}</p>
+                        
+                        <a href="{{ url("/restoran/" . $r->id) }}" class="btn btn-primary" style="margin-top:1rem; padding: 0.5rem 1rem;">
+                            <span class="lang-text-tr">Detayları İncele</span>
+                            <span class="lang-text-en" style="display:none;">View Details</span>
+                        </a>
+                    </div>
+                </div>
+            @endforeach
+        </div>
     </section>
 
     <footer id="iletisim">

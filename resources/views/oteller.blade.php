@@ -105,7 +105,28 @@
             <h2 class="content-title" style="font-size: clamp(2rem, 4vw, 3rem);" data-i18n="otel_col_title">Öne Çıkan
                 <em>Oteller</em></h2>
         </div>
-        <div class="card-grid" id="hotelCardsGrid"></div>
+        <div class="card-grid" id="hotelCardsGrid">
+            @foreach($oteller as $otel)
+                <div class="card reveal visible">
+                    <div class="card-img" style="background-image:url("{{ asset($otel->img) }}")"></div>
+                    <div class="card-body">
+                        <span class="card-tag lang-text-tr">{{ $otel->tag["tr"] ?? "" }}</span>
+                        <span class="card-tag lang-text-en" style="display:none;">{{ $otel->tag["en"] ?? "" }}</span>
+                        
+                        <h3 class="card-title lang-text-tr">{{ $otel->name["tr"] ?? "" }}</h3>
+                        <h3 class="card-title lang-text-en" style="display:none;">{{ $otel->name["en"] ?? "" }}</h3>
+                        
+                        <p class="card-desc lang-text-tr">{{ $otel->desc["tr"] ?? "" }}</p>
+                        <p class="card-desc lang-text-en" style="display:none;">{{ $otel->desc["en"] ?? "" }}</p>
+                        
+                        <a href="{{ url("/otel/" . $otel->id) }}" class="btn btn-primary" style="margin-top:1rem; padding: 0.5rem 1rem;">
+                            <span class="lang-text-tr">Detayları İncele</span>
+                            <span class="lang-text-en" style="display:none;">View Details</span>
+                        </a>
+                    </div>
+                </div>
+            @endforeach
+        </div>
     </section>
 
     <!-- Footer -->

@@ -32,6 +32,10 @@ Route::get('/etkinlikler.html', [PageController::class, 'etkinlikler']);
 Route::get('/journal', [PageController::class, 'journal'])->name('journal');
 Route::get('/journal.html', [PageController::class, 'journal']);
 
+// Detail Pages
+Route::get('/otel/{id}', [PageController::class, 'otelDetay'])->name('otel.detay');
+Route::get('/restoran/{id}', [PageController::class, 'restoranDetay'])->name('restoran.detay');
+
 // Authentication Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);

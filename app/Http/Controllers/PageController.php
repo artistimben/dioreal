@@ -3,51 +3,75 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Hotel;
+use App\Models\Restaurant;
+use App\Models\Yacht;
+use App\Models\Guide;
+use App\Models\Event;
+use App\Models\Journal;
 
 class PageController extends Controller
 {
     public function index()
     {
-        return view('index');
+        return view("index");
     }
 
     public function hakkimizda()
     {
-        return view('hakkimizda');
+        return view("hakkimizda");
     }
 
     public function oteller()
     {
-        return view('oteller');
+        $oteller = Hotel::all();
+        return view("oteller", compact("oteller"));
     }
 
     public function yatlar()
     {
-        return view('yatlar');
+        $yatlar = Yacht::all();
+        return view("yatlar", compact("yatlar"));
     }
 
     public function restoranlar()
     {
-        return view('restoranlar');
+        $restoranlar = Restaurant::all();
+        return view("restoranlar", compact("restoranlar"));
     }
 
     public function geziRehberi()
     {
-        return view('gezi-rehberi');
+        $rehberler = Guide::all();
+        return view("gezi-rehberi", compact("rehberler"));
     }
 
     public function etkinlikler()
     {
-        return view('etkinlikler');
+        $etkinlikler = Event::all();
+        return view("etkinlikler", compact("etkinlikler"));
     }
 
     public function journal()
     {
-        return view('journal');
+        $journals = Journal::all();
+        return view("journal", compact("journals"));
     }
 
     public function admin()
     {
-        return view('admin');
+        return view("admin");
+    }
+
+    public function otelDetay($id)
+    {
+        $otel = Hotel::findOrFail($id);
+        return view("otel-detay", compact("otel"));
+    }
+
+    public function restoranDetay($id)
+    {
+        $restoran = Restaurant::findOrFail($id);
+        return view("restoran-detay", compact("restoran"));
     }
 }

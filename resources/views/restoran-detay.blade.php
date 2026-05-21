@@ -25,71 +25,41 @@
     </style>
 </head>
 <body>
-
-    <!-- Desktop Nav (Basit) -->
-    <nav id="mainNav" class="scrolled" style="background: rgba(0,0,0,0.9);">
-        <div class="nav-logo-wrapper">
-            <a href="{{ url('/') }}" class="nav-logo">
-                <span class="logo-text" style="color:white;">DIOREAL.</span>
-            </a>
-        </div>
+    <nav id="mainNav">
+        <div class="nav-logo-wrapper"><a href="{{ url("/") }}" class="nav-logo"><span class="logo-text">DIOREAL.</span></a></div>
         <ul class="nav-links">
-            <li><a href="{{ url('/') }}" data-i18n="nav_home">Ana Sayfa</a></li>
-            <li><a href="{{ url('/restoranlar') }}" data-i18n="nav_restaurants">Restoranlar</a></li>
+            <li><a href="{{ url("/") }}">Ana Sayfa</a></li>
+            <li><a href="{{ url("/restoranlar") }}" class="active-page">Restoranlar</a></li>
         </ul>
+        <div class="nav-right"><a href="{{ url("/admin") }}" class="btn btn-outline" style="padding:0.4rem 1rem;font-size:0.8rem;">Admin Paneli</a></div>
     </nav>
 
-    <div id="detail-container">
-        <!-- Dinamik İçerik Buraya Gelecek -->
-        <div style="height:100vh; display:flex; align-items:center; justify-content:center;">Yükleniyor...</div>
+    <div class="page-hero" style="background-image: url("{{ asset($restoran->img) }}");">
+        <div class="page-hero-content">
+            <span class="page-eyebrow">{{ $restoran->tag["tr"] ?? "" }}</span>
+            <h1 class="page-title">{{ $restoran->name["tr"] ?? "" }}</h1>
+        </div>
     </div>
 
-    <!-- Footer Placeholder -->
-    <footer style="background:#111; padding:3rem; text-align:center; color:white;">
-        <p>© 2026 Dioreal Dijital</p>
-    </footer>
-
-    <script src="{{ url('js/i18n.js?v=2') }}"></script>
-    <script>
-        const currentItemId = {{ $id }};
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            const lang = localStorage.getItem('dioreal_lang') || 'tr';
-            
-            DioAPI.loadAsync('dioreal_restaurants_data', function(data) {
-                const item = data.find(x => x.id == currentItemId);
-                const container = document.getElementById('detail-container');
-                
-                if (!item) {
-                    container.innerHTML = '<div style="height:100vh;display:flex;align-items:center;justify-content:center;"><h2>Restoran bulunamadı.</h2></div>';
-                    return;
-                }
-
-                const name = (item.name && item.name[lang]) ? item.name[lang] : (item.name?.tr || '');
-                const tag = (item.tag && item.tag[lang]) ? item.tag[lang] : (item.tag?.tr || '');
-                const desc = (item.desc && item.desc[lang]) ? item.desc[lang] : (item.desc?.tr || '');
-                const longDesc = (item.long_desc && item.long_desc[lang]) ? item.long_desc[lang] : (item.long_desc?.tr || desc);
-                const img = item.img.startsWith('/') ? getBaseUrl() + item.img : item.img;
-                
-                let galleryHTML = '';
-                if (item.gallery && item.gallery.length > 0) {
-                    galleryHTML = '<div class="gallery-grid">' + item.gallery.map(g => `<img src="${g.startsWith('/') ? getBaseUrl() + g : g}" class="gallery-item">`).join('') + '</div>';
-                }
-
-                container.innerHTML = `
-                    <div class="detail-hero" style="background-image: url('${img}');">
-                        <div class="detail-hero-content">
-                            <span class="detail-tag">${tag}</span>
-                            <h1 class="detail-title">${name}</h1>
-                        </div>
-                    </div>
-                    <div class="detail-body">
-                        <p>${longDesc}</p>
-                    </div>
-                    ${galleryHTML}
-                `;
-            });
-        });
-    </script>
+    <section class="content-section">
+        <div class="content-grid">
+            <div class="reveal">
+                <h2 class="content-title">Mekan <em>Hakkında</em></h2>
+                <p class="content-body">{{ $restoran->long_desc["tr"] ?? ($restoran->desc["tr"] ?? "") }}</p>
+                <a href="#" class="btn btn-primary" style="margin-top:2rem;">Masa Ayırt</a>
+            </div>
+            <div class="reveal" style="transition-delay:0.2s">
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    @if($restoran->gallery)
+                        @foreach($restoran->gallery as $g)
+                            <img src="{{ str_starts_with($g, "data:") ? $g : asset($g) }}" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:10px;">
+                        @endforeach
+                    @else
+                        <p>Galeri bulunmamaktadır.</p>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
