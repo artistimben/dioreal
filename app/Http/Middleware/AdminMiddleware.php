@@ -15,7 +15,7 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->session()->get('is_admin') !== true) {
+        if ($request->session()->get('is_admin') !== true && !\Illuminate\Support\Facades\Auth::check()) {
             if ($request->expectsJson() || $request->is('api/*')) {
                 return response()->json(['error' => 'Yetkisiz işlem. Lütfen giriş yapın.'], 401);
             }

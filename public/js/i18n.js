@@ -1,124 +1,3 @@
-// ── DioAPI — Sunucu Merkezli Veri Yönetimi ──────────────────────────────────
-window.DioAPI = (function() {
-    var isLocal = (window.location.protocol === 'file:');
-
-    function _key(k)  { return k.replace(/[^a-zA-Z0-9_]/g,''); }
-    function _ls(k)   { try { var s=localStorage.getItem(k); return s ? JSON.parse(s) : null; } catch(e){ return null; } }
-    function _save(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
-
-    function getBaseUrl() {
-        var meta = document.querySelector('meta[name="base-url"]');
-        return meta ? meta.getAttribute('content') : '';
-    }
-
-    function _normalize(key, data) {
-        if (data && typeof data === 'object' && !Array.isArray(data)) {
-            var listKeys = [
-                'dioreal_hotels_data',
-                'dioreal_yachts_data',
-                'dioreal_restaurants_data',
-                'dioreal_guide_data',
-                'dioreal_events_data',
-                'dioreal_journal_data',
-                'dioreal_refs_data'
-            ];
-            if (listKeys.indexOf(key) !== -1) {
-                var arr = [];
-                for (var i = 0; ; i++) {
-                    if (data.hasOwnProperty(i)) {
-                        arr.push(data[i]);
-                    } else if (data.hasOwnProperty(String(i))) {
-                        arr.push(data[String(i)]);
-                    } else {
-                        break;
-                    }
-                }
-                if (arr.length > 0) return arr;
-                var values = [];
-                for (var k in data) {
-                    if (data.hasOwnProperty(k) && k !== 'key' && data[k] && typeof data[k] === 'object') {
-                        values.push(data[k]);
-                    }
-                }
-                return values;
-            }
-        }
-        return data;
-    }
-
-    // LOAD: Sunucuda ise senkron XHR ile bekleyerek veri çek
-    function loadSync(key) {
-        var fallback = _ls(key);
-        if (isLocal) return _normalize(key, fallback);
-        try {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', getBaseUrl() + '/api/load?key='+_key(key)+'&t='+Date.now(), false);
-            xhr.withCredentials = true; // synchronous
-            xhr.send(null);
-            if (xhr.status === 200) {
-                var t = (xhr.responseText || '').trim();
-                if (t && t !== 'null' && t.charAt(0) !== '<') {
-                    try {
-                        var d = JSON.parse(t);
-                        if (d !== null) {
-                            _save(key, d); // yerel önbelleği güncelle
-                            return _normalize(key, d);
-                        }
-                    } catch(e) { console.warn('[DioAPI] JSON parse error:', e); }
-                }
-            }
-        } catch(e) { console.warn('[DioAPI] loadSync error:', e); }
-        return _normalize(key, fallback);
-    }
-
-    // LOAD ASYNC: Sayfa render sonrası re-render için
-    function loadAsync(key, callback) {
-        if (isLocal) { callback(_normalize(key, _ls(key))); return; }
-        fetch(getBaseUrl() + '/api/load?key='+_key(key)+'&t='+Date.now(), { credentials: 'same-origin' })
-            .then(function(r){ return r.text(); })
-            .then(function(t){
-                if (t && t.trim() !== 'null' && t.charAt(0) !== '<') {
-                    try { var d = JSON.parse(t); _save(key,d); callback(_normalize(key, d)); return; } catch(e){}
-                }
-                callback(_normalize(key, _ls(key)));
-            })
-            .catch(function(){ callback(_normalize(key, _ls(key))); });
-    }
-
-    // SAVE: HEMEN localStorage'a yaz, callback'i çağır, arka planda sunucuya gönder
-    function save(key, data, onSuccess) {
-        _save(key, data);
-        if (onSuccess) onSuccess();
-
-        if (!isLocal) {
-            var headers = { 'Content-Type': 'application/json' };
-            var csrfMeta = document.querySelector('meta[name="csrf-token"]');
-            if (csrfMeta) {
-                headers['X-CSRF-TOKEN'] = csrfMeta.getAttribute('content');
-            }
-
-            fetch(getBaseUrl() + '/api/save?key='+_key(key), {
-                method: 'POST',
-                credentials: 'same-origin',
-                headers: headers,
-                body: JSON.stringify(data)
-            })
-            .then(function(r){ return r.text(); })
-            .then(function(t){
-                try {
-                    var resp = JSON.parse(t);
-                    if (resp && resp.error) console.error('[DioAPI] Sunucu hata:', resp.error);
-                } catch(e) { console.error('[DioAPI] Yanıt geçersiz:', t.substring(0,200)); }
-            })
-            .catch(function(e){ console.error('[DioAPI] Ağ hatası:', e); });
-        }
-    }
-
-    return { loadSync: loadSync, loadAsync: loadAsync, save: save, isLocal: isLocal };
-})();
-// ─────────────────────────────────────────────────────────────────────────────
-
-
 // ── CENTRAL TRANSLATION DATA ──
 const DEFAULT_CONTENT = {
     // Nav
@@ -159,10 +38,8 @@ const DEFAULT_CONTENT = {
     // Home Page
     "hero_line1": { "tr": "Türkiye ve dünyada seçkin", "en": "Opening doors to exclusive" },
     "hero_line2": { "tr": "deneyimlerin kapısını aralıyoruz.", "en": "experiences globally." },
-    "man_eyebrow": { "tr": "LÜKS SEYAHAT REHBERİMİZ", "en": "OUR GUIDE TO LUXURY TRAVEL" },
-    "man_p1": { "tr": "Sadece güzel yerlerden daha fazlasını isteyen insanlar için ısmarlama lüks tatiller yaratıyoruz.", "en": "We create bespoke luxury holidays for people who want more than just beautiful places." },
-    "man_p2": { "tr": "Bazıları için lüks, sessizliğin deneyim olduğu Namib Çölü'nün uzak bir köşesinde huzurlu bir yalnızlık içinde yürüyüş yapmaktır. Diğerleri içinse, kendi hızınızda gizli koylar arasında hareket eden özel bir yatla Akdeniz'de yelken açma özgürlüğüdür.", "en": "For some, luxury is hiking in peaceful solitude through a remote corner of the Namib Desert. For others, it’s the freedom of sailing the Mediterranean aboard a private yacht." },
-    "man_p3": { "tr": "Yarattığımız her yolculuk sizin etrafınızda şekillenir. Lüks seyahat danışmanlarımız, olağanüstü yerleri bir araya getirerek zahmetsiz ve anlamlı hissettiren deneyimler yaratmak için kişiye özel tatilleri tasarlar.", "en": "Every journey we create is shaped around you. Our luxury travel advisors design tailor-made holidays to create experiences that feel effortless and meaningful." },
+    "man_eyebrow": { "tr": "BU AYIN SEÇKİNLERİ", "en": "THIS MONTH'S SELECTION" },
+    "man_p1": { "tr": "Sizler için özenle seçtiğimiz bu ayın en trend otel, restoran, yat ve plaj lokasyonlarının ardındaki eşsiz hikayeleri keşfedin. Sıradanlığın ötesinde anılar biriktirmeniz için tasarlanmış özel deneyimler.", "en": "Explore the unique stories behind this month's trending hotels, restaurants, yachts, and beach spots carefully selected for you. Bespoke experiences designed for you to gather memories beyond the ordinary." },
     "dest_tr_eyebrow": { "tr": "SEYAHATLERİMİZİ KEŞFEDİN", "en": "EXPLORE OUR TRIPS" },
     "dest_tr_title": { "tr": "Türkiye'nin", "en": "Soul of" },
     "dest_tr_it": { "tr": "Ruhu", "en": "Turkey" },
@@ -252,17 +129,24 @@ const DEFAULT_CONTENT = {
     "trend_otel_title": { "tr": "Kassandra Villa", "en": "Kassandra Villa" },
     "trend_rest_title": { "tr": "Melengeç", "en": "Melengeç" },
     "trend_yat_title": { "tr": "Blue Voyage", "en": "Blue Voyage" },
-    "trend_beach_title": { "tr": "Rups Beach", "en": "Rups Beach" }
+    "trend_beach_title": { "tr": "Rups Beach", "en": "Rups Beach" },
+    
+    // Details Pages
+    "detail_about_hotel": { "tr": "Otel <em>Hakkında</em>", "en": "About <em>Hotel</em>" },
+    "detail_about_rest": { "tr": "Mekan <em>Hakkında</em>", "en": "About <em>Venue</em>" },
+    "detail_gallery": { "tr": "Fotoğraf <em>Galerisi</em>", "en": "Photo <em>Gallery</em>" },
+    "detail_booking_hotel": { "tr": "Rezervasyon Yap", "en": "Book a Room" },
+    "detail_booking_rest": { "tr": "Masa Ayırt", "en": "Book a Table" },
+    "detail_contact_info": { "tr": "İletişim & Konum", "en": "Contact & Location" },
+    "detail_no_gallery": { "tr": "Galeri bulunmamaktadır.", "en": "No gallery photos found." }
 };
 
-const savedData = localStorage.getItem('dioreal_lang_data');
-let langData = savedData ? { ...DEFAULT_CONTENT, ...JSON.parse(savedData) } : DEFAULT_CONTENT;
-
 const updateLang = (lang) => {
+    document.documentElement.setAttribute('lang', lang);
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (langData[key]) {
-            el.innerHTML = langData[key][lang];
+        if (DEFAULT_CONTENT[key]) {
+            el.innerHTML = DEFAULT_CONTENT[key][lang];
         }
     });
     // Active class for buttons
@@ -271,78 +155,11 @@ const updateLang = (lang) => {
     document.querySelectorAll(selector).forEach(btn => btn.classList.add('active'));
     
     localStorage.setItem('dioreal_lang', lang);
+    document.dispatchEvent(new CustomEvent('langChanged', { detail: lang }));
 };
-
-// ── MEDIA UPDATE LOGIC ──
-const DEFAULT_MEDIA_MAPPING = [
-    {t:'Ana Hero 4K', p:'foto.img/hero_4k.jpg'},
-    {t:'Logo', p:'foto.img/logo.jpg'},
-    {t:'Bodrum Manzara', p:'foto.img/bodrum.jpg'},
-    {t:'Amalfi Sahili', p:'foto.img/amalfi.jpg'},
-    {t:'Kapadokya Balonlar', p:'foto.img/kapadokya.jpg'},
-    {t:'Otel Aman', p:'foto.img/otel_aman.jpg'},
-    {t:'Otel Hero', p:'foto.img/otel_hero.jpg'},
-    {t:'Otel Hillside', p:'foto.img/otel_hillside.jpg'},
-    {t:'Otel Museum', p:'foto.img/otel_museum.jpg'},
-    {t:'Otel Sirenuse', p:'foto.img/otel_sirenuse.jpg'},
-    {t:'Otel Soneva', p:'foto.img/otel_soneva.jpg'},
-    {t:'Restoran Hero', p:'foto.img/rest_hero.jpg'},
-    {t:'Restoran Mikla', p:'foto.img/rest_mikla.jpg'},
-    {t:'Restoran Zuma', p:'foto.img/rest_zuma.jpg'},
-    {t:'Restoran Melengeç', p:'foto.img/rest_melengec.jpg'},
-    {t:'Yat Hero', p:'foto.img/yat_hero.jpg'},
-    {t:'Yat Azure Dream', p:'foto.img/yat_azure_dream.jpg'},
-    {t:'Yat Bodrum Blue', p:'foto.img/yat_bodrum_blue.jpg'},
-    {t:'Yat Aegean Wind', p:'foto.img/yat_aegean_wind.jpg'},
-    {t:'Japonya Journal', p:'foto.img/japonya.jpg'},
-    {t:'Norveç Journal', p:'foto.img/norvec.jpg'},
-    {t:'Sahra Journal', p:'foto.img/sahra.jpg'}
-];
 
 document.addEventListener("DOMContentLoaded", () => {
     // Check initial language
     const initialLang = localStorage.getItem('dioreal_lang') || 'tr';
     updateLang(initialLang);
-
-    // Update media from localStorage
-    const savedMediaStr = localStorage.getItem('dioreal_media_data');
-    if (savedMediaStr) {
-        try {
-            const savedMedia = JSON.parse(savedMediaStr);
-            const mediaMap = {};
-            
-            DEFAULT_MEDIA_MAPPING.forEach((item, index) => {
-                if (savedMedia[index] && savedMedia[index].p && savedMedia[index].p !== item.p) {
-                    mediaMap[item.p] = savedMedia[index].p;
-                }
-            });
-
-            // Replace standard images
-            document.querySelectorAll('img').forEach(img => {
-                const src = img.getAttribute('src');
-                if (src && mediaMap[src]) {
-                    img.setAttribute('src', mediaMap[src]);
-                }
-            });
-
-            // Replace background-images
-            document.querySelectorAll('[style*="background-image"]').forEach(el => {
-                let style = el.getAttribute('style');
-                let updated = false;
-                for (const orig in mediaMap) {
-                    if (style.includes(orig)) {
-                        // regex escape helper for path
-                        const safeOrig = orig.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                        style = style.replace(new RegExp(safeOrig, 'g'), mediaMap[orig]);
-                        updated = true;
-                    }
-                }
-                if (updated) {
-                    el.setAttribute('style', style);
-                }
-            });
-        } catch (e) {
-            console.error("Media replace error:", e);
-        }
-    }
 });

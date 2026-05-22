@@ -41,13 +41,31 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Protected Admin Dashboard Route
-Route::get('/admin', [PageController::class, 'admin'])->middleware('admin')->name('admin');
-Route::get('/admin.html', function() {
-    return redirect()->route('admin');
+// Protected Admin Routes Group
+Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+    
+    Route::middleware(['permission:hotels'])->resource('hotels', App\Http\Controllers\Admin\HotelController::class);
+    Route::middleware(['permission:restaurants'])->resource('restaurants', App\Http\Controllers\Admin\RestaurantController::class);
+    Route::middleware(['permission:yachts'])->resource('yachts', App\Http\Controllers\Admin\YachtController::class);
+    Route::middleware(['permission:guides'])->resource('guides', App\Http\Controllers\Admin\GuideController::class);
+    Route::middleware(['permission:events'])->resource('events', App\Http\Controllers\Admin\EventController::class);
+    Route::middleware(['permission:journals'])->resource('journals', App\Http\Controllers\Admin\JournalController::class);
+    
+    // Users Management
+    Route::middleware(['permission:users'])->resource('users', App\Http\Controllers\Admin\UserController::class);
+    
+    // Global Settings & Brands Management
+    Route::middleware(['permission:settings'])->group(function () {
+        Route::get('settings', [App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
+        Route::post('settings', [App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
+        Route::post('settings/brands', [App\Http\Controllers\Admin\SettingController::class, 'addBrand'])->name('settings.add_brand');
+        Route::delete('settings/brands/{index}', [App\Http\Controllers\Admin\SettingController::class, 'deleteBrand'])->name('settings.delete_brand');
+    });
 });
 
-// JSON API Routes
-Route::get('/api/load', [ApiController::class, 'load']);
-Route::post('/api/save', [ApiController::class, 'save'])->middleware('admin');
-Route::post('/api/delete', [ApiController::class, 'delete'])->middleware('admin');
+// Admin fallback redirects
+Route::get('/admin.html', function() {
+    return redirect()->route('admin.dashboard');
+});
+

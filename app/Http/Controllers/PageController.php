@@ -58,10 +58,7 @@ class PageController extends Controller
         return view("journal", compact("journals"));
     }
 
-    public function admin()
-    {
-        return view("admin");
-    }
+
 
     public function otelDetay($id)
     {

@@ -86,9 +86,11 @@
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1 class="hero-title reveal">
+                <span class="lang-text-tr">{!! nl2br(e($settings['hero_title_tr'] ?? 'Türkiye ve dünyada seçkin deneyimlerin kapısını aralıyoruz.')) !!}</span>
+                <span class="lang-text-en">{!! nl2br(e($settings['hero_title_en'] ?? 'Opening doors to exclusive experiences globally.')) !!}</span>
             </h1>
             <div class="hero-cta-group reveal" style="transition-delay: 0.2s;">
-                <a href="https://wa.me/905320000000" class="btn btn-outline" data-i18n="btn_contact">İletişime Geç</a>
+                <a href="https://wa.me/{{ $settings['whatsapp'] ?? '905320000000' }}" class="btn btn-outline whatsapp-cta" data-i18n="btn_contact">İletişime Geç</a>
             </div>
         </div>
     </section>
@@ -380,7 +382,13 @@
                 <p style="color: var(--mid-gray); font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase;">Güvenilir Partnerlerimiz</p>
             </div>
         </div>
-        <div class="bt-logos-wrapper reveal" id="refsGrid" style="transition-delay: 0.2s;"></div>
+        <div class="bt-logos-wrapper reveal" id="refsGrid" style="transition-delay: 0.2s;">
+            @if(isset($settings['brands']) && is_array($settings['brands']))
+                @foreach($settings['brands'] as $brand)
+                    <img class="bt-logo-img" src="{{ asset($brand['img']) }}" alt="{{ $brand['name'] }}" title="{{ $brand['name'] }}">
+                @endforeach
+            @endif
+        </div>
     </section>
 
     <!-- OLD: Process (Süreç) -->
@@ -430,131 +438,11 @@
         </div>
     </section>
 
-    <!-- NEW: Footer (WhatsApp Integrated) -->
-    <footer id="iletisim">
-        <div class="footer-top">
-            <div class="footer-brand">
-                <div class="footer-logo">DIOREAL.</div>
-                <p class="footer-p" data-i18n="footer_p">Seçkin destinasyonları ve premium markaları doğru kitleyle buluşturan medya
-                    platformu.</p>
-                <a href="https://wa.me/905320000000" class="whatsapp-cta">
-                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                        <path
-                            d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" />
-                    </svg>
-                    <span data-i18n="btn_contact_wa">WhatsApp İletişim</span>
-                </a>
-            </div>
-            <div class="footer-col">
-                <h4 data-i18n="footer_dest">Destinasyonlar</h4>
-                <ul class="footer-links">
-                    <li><a href="#" data-i18n="mq_mald">Maldivler</a></li>
-                    <li><a href="#" data-i18n="mq_jap">Japonya</a></li>
-                    <li><a href="#" data-i18n="mq_pat">Patagonya</a></li>
-                    <li><a href="#" data-i18n="mq_ama">Amalfi Kıyısı</a></li>
-                    <li><a href="#" data-i18n="mq_nor">Norveç Fiyortları</a></li>
-                    <li><a href="#" data-i18n="mq_sah">Sahra Çölü</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4 data-i18n="footer_serv">Hizmetler</h4>
-                <ul class="footer-links">
-                    <li><a href="#" data-i18n="serv_1">Balayı Paketleri</a></li>
-                    <li><a href="#" data-i18n="serv_2">Aile Tatilleri</a></li>
-                    <li><a href="#" data-i18n="serv_3">Macera Turları</a></li>
-                    <li><a href="#" data-i18n="serv_4">Kültür Gezileri</a></li>
-                    <li><a href="#" data-i18n="serv_5">Özel Jet Hizmetleri</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4 data-i18n="nav_about">Sayfalar</h4>
-                <ul class="footer-links">
-                    <li><a href="hakkimizda.html">Hakkımızda</a></li>
-                    <li><a href="oteller.html">Oteller</a></li>
-                    <li><a href="yatlar.html">Yatlar</a></li>
-                    <li><a href="restoranlar.html">Restoranlar</a></li>
-                    <li><a href="gezi-rehberi.html">Gezi Rehberi</a></li>
-                    <li><a href="etkinlikler.html">Etkinlikler</a></li>
-                    <li><a href="journal.html">Journal</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4 data-i18n="footer_contact">İletişim</h4>
-                <ul class="footer-links" id="footerContactList">
-                    <li><a href="mailto:info@diorealdijital.com">info@diorealdijital.com</a></li>
-                    <li><a href="tel:+902125550100">+90 212 555 0100</a></li>
-                    <li data-i18n="cont_ist">İstanbul, Türkiye</li>
-                    <li><a href="#">Instagram</a></li>
-                    <li><a href="#">LinkedIn</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <span id="footerCopy">© 2026 Dioreal Dijital. All Rights Reserved.</span>
-            <span>Est. 15 Years of Experience</span>
-        </div>
-    </footer>
+    @include('partials.footer')
     <script src="js/i18n.js?v={{ time() }}"></script>
     <script src="js/common.js?v={{ time() }}"></script>
     <script src="js/nav.js?v={{ time() }}"></script>
     <script src="js/home.js?v={{ time() }}"></script>
-    <script>
-        /* ── Referanslar dinamik ── */
-        const _svgLogo = (text, font, style, size) =>
-            `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='${font}' font-size='${size}' font-style='${style}' fill='%23000'>${text}</text></svg>`;
-
-        const DEFAULT_REFS_IDX = [
-            { id:1,  name:'Nautical',    img:_svgLogo('Nautical','serif','',24) },
-            { id:2,  name:'PERDUE',      img:_svgLogo('PERDUE','sans-serif','',28) },
-            { id:3,  name:'Kassandra',   img:_svgLogo('Kassandra','serif','italic',22) },
-            { id:4,  name:'ZAKROS',      img:_svgLogo('ZAKROS','sans-serif','',26) },
-            { id:5,  name:'HUAWEI',      img:_svgLogo('HUAWEI','sans-serif','',26) },
-            { id:6,  name:'SONY',        img:_svgLogo('SONY','sans-serif','',26) },
-            { id:7,  name:'oppo',        img:_svgLogo('oppo','sans-serif','',26) },
-            { id:8,  name:'CapCut',      img:_svgLogo('CapCut','sans-serif','',22) },
-            { id:9,  name:'Hus Wines',   img:_svgLogo('Hus Wines','serif','italic',24) },
-            { id:10, name:'RUPS',        img:_svgLogo('RUPS','sans-serif','',22) },
-            { id:11, name:'Despot Evi',  img:_svgLogo('Despot Evi','serif','',20) },
-            { id:12, name:'BLUE VOYAGE', img:_svgLogo('BLUE VOYAGE','sans-serif','',20) }
-        ];
-
-        (function renderRefs() {
-            const data  = DioAPI.loadSync('dioreal_refs_data') || DEFAULT_REFS_IDX;
-            const grid  = document.getElementById('refsGrid');
-            if (!grid) return;
-            grid.innerHTML = data.map(r =>
-                `<img class="bt-logo-img" src="${r.img}" alt="${r.name}" title="${r.name}">`
-            ).join('');
-        })();
-
-        /* ── Footer iletişim dinamik ── */
-        (function renderFooterContact() {
-            const c = DioAPI.loadSync('dioreal_contact_data');
-            if (!c || typeof c !== 'object') return;
-            const lang = localStorage.getItem('dioreal_lang') || 'tr';
-            const list = document.getElementById('footerContactList');
-            const copy = document.getElementById('footerCopy');
-            if (list) {
-                list.innerHTML = `
-                    ${c.email    ? `<li><a href="mailto:${c.email}">${c.email}</a></li>` : ''}
-                    ${c.phone    ? `<li><a href="tel:${c.phone.replace(/\s/g,'')}">${c.phone}</a></li>` : ''}
-                    <li>${lang === 'en' ? (c.address_en || c.address_tr) : c.address_tr}</li>
-                    ${c.instagram && c.instagram !== '#' ? `<li><a href="${c.instagram}" target="_blank">Instagram</a></li>` : '<li><a href="#">Instagram</a></li>'}
-                    ${c.linkedin  && c.linkedin  !== '#' ? `<li><a href="${c.linkedin}"  target="_blank">LinkedIn</a></li>`  : '<li><a href="#">LinkedIn</a></li>'}
-                `;
-            }
-            if (copy && c.footer_copy) copy.innerText = c.footer_copy;
-        })();
-
-        /* ── WhatsApp butonu dinamik ── */
-        (function updateWa() {
-            const c = DioAPI.loadSync('dioreal_contact_data');
-            if (!c || !c.whatsapp) return;
-            document.querySelectorAll('a.whatsapp-cta').forEach(a => {
-                a.href = `https://wa.me/${c.whatsapp}`;
-            });
-        })();
-    </script>
 </body>
 
 </html>

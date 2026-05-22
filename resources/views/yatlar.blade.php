@@ -90,30 +90,21 @@
             <h2 class="content-title" style="font-size: clamp(2rem, 4vw, 3rem);" data-i18n="yacht_fleet_title">Premium <em>Yat Filomuz</em></h2>
         </div>
         <div class="card-grid">
-            <div class="card reveal">
-                <div class="card-img" style="background-image: url('foto.img/yat_bodrum_blue.jpg');"></div>
-                <div class="card-body">
-                    <span class="card-tag">Gulet · 24m</span>
-                    <h3 class="card-title">Bodrum Blue</h3>
-                    <p class="card-desc" data-i18n="yacht_bodrum_desc">8 misafir kapasiteli, teak güverteli, Türk el sanatlarıyla donatılmış geleneksel Bodrum gulet'i.</p>
+            @foreach($yatlar as $y)
+                <div class="card reveal visible">
+                    <div class="card-img" style="background-image: url('{{ asset($y->img) }}');"></div>
+                    <div class="card-body">
+                        <span class="card-tag lang-text-tr">{{ $y->tag["tr"] ?? "" }}</span>
+                        <span class="card-tag lang-text-en">{{ $y->tag["en"] ?? "" }}</span>
+                        
+                        <h3 class="card-title lang-text-tr">{{ $y->name["tr"] ?? "" }}</h3>
+                        <h3 class="card-title lang-text-en">{{ $y->name["en"] ?? "" }}</h3>
+                        
+                        <p class="card-desc lang-text-tr">{{ $y->desc["tr"] ?? "" }}</p>
+                        <p class="card-desc lang-text-en">{{ $y->desc["en"] ?? "" }}</p>
+                    </div>
                 </div>
-            </div>
-            <div class="card reveal" style="transition-delay:0.1s">
-                <div class="card-img" style="background-image: url('foto.img/yat_azure_dream.jpg');"></div>
-                <div class="card-body">
-                    <span class="card-tag">Motor Yat · 35m</span>
-                    <h3 class="card-title">Azure Dream</h3>
-                    <p class="card-desc" data-i18n="yacht_azure_desc">12 misafir kapasiteli, helikopter pisti, jakuzi ve tam donanımlı modern süper yat deneyimi.</p>
-                </div>
-            </div>
-            <div class="card reveal" style="transition-delay:0.2s">
-                <div class="card-img" style="background-image: url('foto.img/yat_aegean_wind.jpg');"></div>
-                <div class="card-body">
-                    <span class="card-tag">Yelkenli · 18m</span>
-                    <h3 class="card-title">Aegean Wind</h3>
-                    <p class="card-desc" data-i18n="yacht_aegean_desc">6 misafir için özel, rüzgarın gücüyle Ege'yi keşfetmek isteyenler için premium yelkenli yat.</p>
-                </div>
-            </div>
+            @endforeach
         </div>
     </section>
 
@@ -131,85 +122,11 @@
         </div>
     </section>
 
-    <footer id="iletisim">
-        <div class="footer-top">
-            <div class="footer-brand">
-                <div class="footer-logo">DIOREAL.</div>
-                <p class="footer-p" data-i18n="footer_p">Seçkin destinasyonları ve premium markaları doğru kitleyle buluşturan medya platformu.</p>
-                <a href="https://wa.me/905320000000" class="whatsapp-cta">
-                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
-                    <span data-i18n="btn_contact_wa">WhatsApp İletişim</span>
-                </a>
-            </div>
-            <div class="footer-col">
-                <h4 data-i18n="footer_pages">Sayfalar</h4>
-                <ul class="footer-links">
-                    <li><a href="hakkimizda.html" data-i18n="nav_about">Hakkımızda</a></li>
-                    <li><a href="oteller.html" data-i18n="nav_hotels">Oteller</a></li>
-                    <li><a href="yatlar.html" data-i18n="nav_yachts">Yatlar</a></li>
-                    <li><a href="restoranlar.html" data-i18n="nav_restaurants">Restoranlar</a></li>
-                    <li><a href="journal.html" data-i18n="nav_journal">Journal</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4 data-i18n="footer_serv">Hizmetler</h4>
-                <ul class="footer-links">
-                    <li><a href="#">Balayı Paketleri</a></li>
-                    <li><a href="#">Aile Tatilleri</a></li>
-                    <li><a href="#">Macera Turları</a></li>
-                    <li><a href="#">Kültür Gezileri</a></li>
-                    <li><a href="#">Özel Jet Hizmetleri</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4 data-i18n="footer_contact">İletişim</h4>
-                <ul class="footer-links">
-                    <li><a href="mailto:info@diorealdijital.com">info@diorealdijital.com</a></li>
-                    <li><a href="tel:+902125550100">+90 212 555 0100</a></li>
-                    <li data-i18n="cont_ist">İstanbul, Türkiye</li>
-                    <li><a href="#">Instagram</a></li>
-                    <li><a href="#">LinkedIn</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <span>© 2026 Dioreal Dijital. All Rights Reserved.</span>
-            <span>Est. 15 Years of Experience</span>
-        </div>
-    </footer>
+    @include('partials.footer')
 
     <script src="js/i18n.js?v={{ time() }}"></script>
     <script src="js/common.js?v={{ time() }}"></script>
     <script src="js/nav.js?v={{ time() }}"></script>
-    <script>
-        const DEFAULT_YACHTS_PAGE = [
-            { id:1, name:{tr:'Bodrum Blue', en:'Bodrum Blue'}, tag:{tr:'Gulet · 24m', en:'Gulet · 24m'}, img:'foto.img/yat_bodrum_blue.jpg', desc:{ tr:'8 misafir kapasiteli, teak güverteli, Türk el sanatlarıyla donatılmış geleneksel Bodrum gulet\'i.', en:'Traditional Bodrum gulet for 8 guests, with teak deck and Turkish handicrafts.' } },
-            { id:2, name:{tr:'Azure Dream', en:'Azure Dream'}, tag:{tr:'Motor Yat · 35m', en:'Motor Yacht · 35m'}, img:'foto.img/yat_azure_dream.jpg', desc:{ tr:'12 misafir kapasiteli, helikopter pisti, jakuzi ve tam donanımlı modern süper yat deneyimi.', en:'Modern super yacht for 12 guests, featuring helipad, jacuzzi and full equipment.' } },
-            { id:3, name:{tr:'Aegean Wind', en:'Aegean Wind'}, tag:{tr:'Yelkenli · 18m', en:'Sailing Yacht · 18m'}, img:'foto.img/yat_aegean_wind.jpg', desc:{ tr:'6 misafir için özel, rüzgarın gücüyle Ege\'yi keşfetmek isteyenler için premium yelkenli yat.', en:'Premium sailing yacht for 6 guests, for those who want to explore the Aegean with wind power.' } }
-        ];
-
-        function buildYachtCards(lang) {
-            const data = DioAPI.loadSync('dioreal_yachts_data') || DEFAULT_YACHTS_PAGE;
-            const l    = lang || localStorage.getItem('dioreal_lang') || 'tr';
-            const grid = document.querySelector('.card-grid');
-            if (!grid) return;
-            grid.innerHTML = data.map(y => `
-                <div class="card reveal visible">
-                    <div class="card-img" style="background-image:url('${y.img}')"></div>
-                    <div class="card-body">
-                        <span class="card-tag">${y.tag[l] || y.tag.tr || y.tag}</span>
-                        <h3 class="card-title">${y.name[l] || y.name.tr || y.name}</h3>
-                        <p class="card-desc">${y.desc[l] || y.desc.tr}</p>
-                    </div>
-                </div>
-            `).join('');
-        }
-        buildYachtCards();
-        DioAPI.loadAsync('dioreal_yachts_data', function(data) {
-            if (data && Array.isArray(data)) buildYachtCards();
-        });
-        document.addEventListener('langChanged', function(e) { buildYachtCards(e.detail); });
-    </script>
 </body>
 </html>
 

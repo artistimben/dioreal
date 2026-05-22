@@ -48,3 +48,7 @@ body {
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
 }
+
+/* ── Language Switcher CSS-based display rules ── */
+html[lang="tr"] .lang-text-en { display: none !important; }
+html[lang="en"] .lang-text-tr { display: none !important; }

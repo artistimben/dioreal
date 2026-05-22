@@ -72,105 +72,28 @@
             <p class="content-body" data-i18n="guide_exp_p1">Deneyimli seyahat editörlerimizin hazırladığı destinasyon rehberleri, pratik ipuçları ve sezonluk önerilerle seyahat planlamanızı kolaylaştırıyoruz.</p>
         </div>
         <div class="card-grid">
-            <div class="card reveal">
-                <div class="card-img" style="background-image:url('foto.img/bodrum.jpg');"></div>
-                <div class="card-body">
-                    <span class="card-tag" data-i18n="tag_dest_guide">Destinasyon Rehberi</span>
-                    <h3 class="card-title">Bodrum Komple Rehber</h3>
-                    <p class="card-desc" data-i18n="guide_bodrum_desc">Gidilecek plajlar, gece hayatı, en iyi restoranlar ve gizli koylar. Bodrum'da yapılacak her şey.</p>
+            @foreach($rehberler as $g)
+                <div class="card reveal visible">
+                    <div class="card-img" style="background-image:url('{{ asset($g->img) }}');"></div>
+                    <div class="card-body">
+                        <span class="card-tag lang-text-tr">{{ $g->tag["tr"] ?? "" }}</span>
+                        <span class="card-tag lang-text-en">{{ $g->tag["en"] ?? "" }}</span>
+                        
+                        <h3 class="card-title lang-text-tr">{{ $g->title["tr"] ?? "" }}</h3>
+                        <h3 class="card-title lang-text-en">{{ $g->title["en"] ?? "" }}</h3>
+                        
+                        <p class="card-desc lang-text-tr">{{ $g->desc["tr"] ?? "" }}</p>
+                        <p class="card-desc lang-text-en">{{ $g->desc["en"] ?? "" }}</p>
+                    </div>
                 </div>
-            </div>
-            <div class="card reveal" style="transition-delay:0.1s">
-                <div class="card-img" style="background-image:url('foto.img/kapadokya.jpg');"></div>
-                <div class="card-body">
-                    <span class="card-tag" data-i18n="tag_dest_guide">Destinasyon Rehberi</span>
-                    <h3 class="card-title">Kapadokya Gizli Köşeleri</h3>
-                    <p class="card-desc" data-i18n="guide_kapadokya_desc">Turistik yerler dışında, peri bacalarının arasında saklı kalmış otantik köyler ve benzersiz deneyimler.</p>
-                </div>
-            </div>
-            <div class="card reveal" style="transition-delay:0.2s">
-                <div class="card-img" style="background-image:url('foto.img/cesme.jpg');"></div>
-                <div class="card-body">
-                    <span class="card-tag" data-i18n="tag_season_guide">Sezon Rehberi</span>
-                    <h3 class="card-title">Çeşme & Alaçatı Mayıs</h3>
-                    <p class="card-desc" data-i18n="guide_cesme_desc">Kalabalık öncesi Çeşme'nin en keyifli hali. Rüzgar festivali, lale bahçeleri ve sakin kafeler.</p>
-                </div>
-            </div>
-            <div class="card reveal" style="transition-delay:0.3s">
-                <div class="card-img" style="background-image:url('foto.img/japonya.jpg');"></div>
-                <div class="card-body">
-                    <span class="card-tag" data-i18n="tag_abroad_guide">Yurtdışı Rehberi</span>
-                    <h3 class="card-title">Japonya İlk Ziyaret</h3>
-                    <p class="card-desc" data-i18n="guide_japan_desc">Tokyo'dan Kyoto'ya, şehirden kırsala. 14 günlük ideal Japonya rotası ve bilinmesi gereken her şey.</p>
-                </div>
-            </div>
-            <div class="card reveal" style="transition-delay:0.4s">
-                <div class="card-img" style="background-image:url('foto.img/maldivler.jpg');"></div>
-                <div class="card-body">
-                    <span class="card-tag" data-i18n="tag_honey_guide">Balayı Rehberi</span>
-                    <h3 class="card-title">Maldivler'de Balayı</h3>
-                    <p class="card-desc" data-i18n="guide_maldives_desc">Hangi ada, hangi resort? Bütçenize göre en iyi Maldivler seçeneği ve seyahat dönemi tavsiyeleri.</p>
-                </div>
-            </div>
-            <div class="card reveal" style="transition-delay:0.5s">
-                <div class="card-img" style="background-image:url('foto.img/fethiye.jpg');"></div>
-                <div class="card-body">
-                    <span class="card-tag" data-i18n="tag_nature_guide">Doğa Rehberi</span>
-                    <h3 class="card-title">Fethiye Tekne Turu</h3>
-                    <p class="card-desc" data-i18n="guide_fethiye_desc">12 Adalar, Ölüdeniz, Kelebekler Vadisi. Fethiye'nin en güzel koylarına yat turuyla nasıl gidilir.</p>
-                </div>
-            </div>
+            @endforeach
         </div>
     </section>
 
-    <footer id="iletisim">
-        <div class="footer-top">
-            <div class="footer-brand">
-                <div class="footer-logo">DIOREAL.</div>
-                <p class="footer-p">Seçkin destinasyonları ve premium markaları doğru kitleyle buluşturan medya platformu.</p>
-                <a href="https://wa.me/905320000000" class="whatsapp-cta">
-                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
-                    <span>WhatsApp İletişim</span>
-                </a>
-            </div>
-            <div class="footer-col"><h4 data-i18n="footer_pages">Sayfalar</h4><ul class="footer-links"><li><a href="hakkimizda.html" data-i18n="nav_about">Hakkımızda</a></li><li><a href="oteller.html" data-i18n="nav_hotels">Oteller</a></li><li><a href="yatlar.html" data-i18n="nav_yachts">Yatlar</a></li><li><a href="restoranlar.html" data-i18n="nav_restaurants">Restoranlar</a></li><li><a href="journal.html" data-i18n="nav_journal">Journal</a></li></ul></div>
-            <div class="footer-col"><h4 data-i18n="footer_serv">Hizmetler</h4><ul class="footer-links"><li><a href="#" data-i18n="serv_1">Balayı Paketleri</a></li><li><a href="#" data-i18n="serv_2">Aile Tatilleri</a></li><li><a href="#" data-i18n="serv_3">Macera Turları</a></li><li><a href="#" data-i18n="serv_4">Kültür Gezileri</a></li></ul></div>
-            <div class="footer-col"><h4 data-i18n="footer_contact">İletişim</h4><ul class="footer-links"><li><a href="mailto:info@diorealdijital.com">info@diorealdijital.com</a></li><li><a href="tel:+902125550100">+90 212 555 0100</a></li><li data-i18n="cont_ist">İstanbul, Türkiye</li></ul></div>
-        </div>
-        <div class="footer-bottom"><span>© 2026 Dioreal Dijital. All Rights Reserved.</span><span>Est. 15 Years of Experience</span></div>
-    </footer>
+    @include('partials.footer')
     <script src="js/i18n.js?v={{ time() }}"></script>
     <script src="js/common.js?v={{ time() }}"></script>
     <script src="js/nav.js?v={{ time() }}"></script>
-    <script>
-        const DEFAULT_GUIDE_PAGE = [
-            { id:1, title:{tr:'Bodrum Komple Rehber', en:'Bodrum Complete Guide'}, tag:{tr:'Destinasyon Rehberi', en:'Destination Guide'}, img:'foto.img/bodrum.jpg', desc:{ tr:"Gidilecek plajlar, gece hayatı, en iyi restoranlar ve gizli koylar. Bodrum'da yapılacak her şey.", en:"Beaches to go, night life, best restaurants and hidden bays. Everything to do in Bodrum." } },
-            { id:2, title:{tr:'Kapadokya Gizli Köşeleri', en:'Hidden Corners of Cappadocia'}, tag:{tr:'Destinasyon Rehberi', en:'Destination Guide'}, img:'foto.img/kapadokya.jpg', desc:{ tr:"Turistik yerler dışında, peri bacalarının arasında saklı kalmış otantik köyler.", en:"Authentic villages hidden among fairy chimneys, apart from tourist attractions." } },
-            { id:3, title:{tr:'Çeşme & Alaçatı Mayıs', en:'Cesme & Alacati May'}, tag:{tr:'Sezon Rehberi', en:'Season Guide'}, img:'foto.img/cesme.jpg', desc:{ tr:"Kalabalık öncesi Çeşme'nin en keyifli hali. Rüzgar festivali ve sakin kafeler.", en:"The most pleasant state of Cesme before the crowd. Wind festival and quiet cafes." } }
-        ];
-
-        function buildGuideCards(lang) {
-            const data = DioAPI.loadSync('dioreal_guide_data') || DEFAULT_GUIDE_PAGE;
-            const l    = lang || localStorage.getItem('dioreal_lang') || 'tr';
-            const grid = document.querySelector('.card-grid');
-            if (!grid) return;
-            grid.innerHTML = data.map(g => `
-                <div class="card reveal visible">
-                    <div class="card-img" style="background-image:url('${g.img}')"></div>
-                    <div class="card-body">
-                        <span class="card-tag">${g.tag[l] || g.tag.tr || g.tag}</span>
-                        <h3 class="card-title">${g.title[l] || g.title.tr || g.title}</h3>
-                        <p class="card-desc">${g.desc[l] || g.desc.tr}</p>
-                    </div>
-                </div>
-            `).join('');
-        }
-        buildGuideCards();
-        DioAPI.loadAsync('dioreal_guide_data', function(data) {
-            if (data && Array.isArray(data)) buildGuideCards();
-        });
-        document.addEventListener('langChanged', function(e) { buildGuideCards(e.detail); });
-    </script>
 </body>
 </html>
 
