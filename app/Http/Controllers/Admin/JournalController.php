@@ -40,12 +40,17 @@ class JournalController extends Controller
             'tag.en' => 'nullable|string|max:255',
             'desc.tr' => 'required|string',
             'desc.en' => 'required|string',
+            'content.tr' => 'nullable|string',
+            'content.en' => 'nullable|string',
             'date' => 'required|string|max:255',
+            'read_time' => 'nullable|integer|min:1|max:120',
+            'is_featured' => 'nullable|boolean',
             'img_file' => 'nullable|image|max:5120',
             'img_url' => 'nullable|string',
         ]);
 
-        $data = $request->only(['title', 'tag', 'desc', 'date']);
+        $data = $request->only(['title', 'tag', 'desc', 'content', 'date', 'read_time']);
+        $data['is_featured'] = $request->boolean('is_featured');
 
         // Handle image
         if ($request->hasFile('img_file')) {
@@ -73,12 +78,17 @@ class JournalController extends Controller
             'tag.en' => 'nullable|string|max:255',
             'desc.tr' => 'required|string',
             'desc.en' => 'required|string',
+            'content.tr' => 'nullable|string',
+            'content.en' => 'nullable|string',
             'date' => 'required|string|max:255',
+            'read_time' => 'nullable|integer|min:1|max:120',
+            'is_featured' => 'nullable|boolean',
             'img_file' => 'nullable|image|max:5120',
             'img_url' => 'nullable|string',
         ]);
 
-        $data = $request->only(['title', 'tag', 'desc', 'date']);
+        $data = $request->only(['title', 'tag', 'desc', 'content', 'date', 'read_time']);
+        $data['is_featured'] = $request->boolean('is_featured');
 
         // Handle image
         if ($request->hasFile('img_file')) {

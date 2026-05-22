@@ -31,7 +31,7 @@
             <div class="lang-pane active" data-lang="tr">
                 <div class="form-group">
                     <label class="form-label" for="title_tr">Makale Başlığı (TR)</label>
-                    <input type="text" name="title[tr]" id="title_tr" class="form-control" placeholder="Örn: Bodrum Havalimanı VIP Transfer Hizmetleri" value="{{ old('title.tr') }}" required>
+                    <input type="text" name="title[tr]" id="title_tr" class="form-control" placeholder="Örn: Bodrum'da Gizli Kalmış Koylar" value="{{ old('title.tr') }}" required>
                 </div>
                 
                 <div class="form-group">
@@ -40,8 +40,13 @@
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="desc_tr">Açıklama / Makale İçeriği (TR)</label>
-                    <textarea name="desc[tr]" id="desc_tr" class="form-control" placeholder="Makale içeriğini detaylıca buraya girin..." required style="min-height: 200px;">{{ old('desc.tr') }}</textarea>
+                    <label class="form-label" for="desc_tr">Kısa Özet (TR) <small style="color: var(--text-muted);">— Liste sayfasında ve hero altında görünür</small></label>
+                    <textarea name="desc[tr]" id="desc_tr" class="form-control" placeholder="Makale özetini buraya girin (1–3 cümle)..." required style="min-height: 120px;">{{ old('desc.tr') }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="content_tr">Tam Makale İçeriği (TR) <small style="color: var(--text-muted);">— Detay sayfasında gösterilir</small></label>
+                    <textarea name="content[tr]" id="content_tr" class="form-control" placeholder="Makalenin tam içeriğini buraya girin. Paragraflar arası boş satır bırakabilirsiniz..." style="min-height: 350px;">{{ old('content.tr') }}</textarea>
                 </div>
             </div>
 
@@ -49,7 +54,7 @@
             <div class="lang-pane" data-lang="en">
                 <div class="form-group">
                     <label class="form-label" for="title_en">Article Title (EN)</label>
-                    <input type="text" name="title[en]" id="title_en" class="form-control" placeholder="e.g. Bodrum Airport VIP Transfer Services" value="{{ old('title.en') }}" required>
+                    <input type="text" name="title[en]" id="title_en" class="form-control" placeholder="e.g. Hidden Coves of Bodrum" value="{{ old('title.en') }}" required>
                 </div>
                 
                 <div class="form-group">
@@ -58,8 +63,13 @@
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="desc_en">Description / Article Content (EN)</label>
-                    <textarea name="desc[en]" id="desc_en" class="form-control" placeholder="Write detailed article content here..." required style="min-height: 200px;">{{ old('desc.en') }}</textarea>
+                    <label class="form-label" for="desc_en">Short Summary (EN) <small style="color: var(--text-muted);">— Shown in listings and hero</small></label>
+                    <textarea name="desc[en]" id="desc_en" class="form-control" placeholder="Write a brief summary (1–3 sentences)..." required style="min-height: 120px;">{{ old('desc.en') }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="content_en">Full Article Content (EN) <small style="color: var(--text-muted);">— Shown on the detail page</small></label>
+                    <textarea name="content[en]" id="content_en" class="form-control" placeholder="Write the full article content here. You can use blank lines between paragraphs..." style="min-height: 350px;">{{ old('content.en') }}</textarea>
                 </div>
             </div>
 
@@ -67,11 +77,28 @@
             <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 2rem 0;">
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
-                <!-- Date Info -->
-                <div class="form-group">
-                    <label class="form-label" for="date">Yayın Tarihi Metni</label>
-                    <input type="text" name="date" id="date" class="form-control" placeholder="Örn: MAYIS 2024 veya 24.05.2026" value="{{ old('date') }}" required>
-                    <small style="color: var(--text-muted); display:block; margin-top:0.25rem;">Sitede görünecek tarih etiketini manuel girin.</small>
+                <!-- Date & Meta -->
+                <div>
+                    <div class="form-group">
+                        <label class="form-label" for="date">Yayın Tarihi Metni</label>
+                        <input type="text" name="date" id="date" class="form-control" placeholder="Örn: MAYIS 2024 veya 24.05.2026" value="{{ old('date') }}" required>
+                        <small style="color: var(--text-muted); display:block; margin-top:0.25rem;">Sitede görünecek tarih etiketini manuel girin.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="read_time">Tahmini Okuma Süresi (Dakika)</label>
+                        <input type="number" name="read_time" id="read_time" class="form-control" placeholder="Örn: 5" value="{{ old('read_time') }}" min="1" max="120">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" style="display:flex; align-items:center; gap:0.75rem; cursor:pointer;">
+                            <input type="hidden" name="is_featured" value="0">
+                            <input type="checkbox" name="is_featured" value="1" {{ old('is_featured') ? 'checked' : '' }}
+                                style="width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer;">
+                            Öne Çıkarılmış Yazı (Featured)
+                        </label>
+                        <small style="color: var(--text-muted); display:block; margin-top:0.25rem;">İşaretlenirse anasayfa veya özel alanda gösterilebilir.</small>
+                    </div>
                 </div>
 
                 <!-- Cover Image -->
@@ -83,13 +110,13 @@
                             <i class="fas fa-image"></i> Görsel Dosyası Seç
                         </button>
                         
-                        <div class="image-preview-box" id="img_preview" style="max-width: 300px; height: 180px;">
-                            <span class="image-preview-text">Önizleme Yok</span>
+                        <div class="image-preview-box" id="img_preview" style="max-width: 300px; height: 180px; border: 1px dashed var(--border-color); display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:4px; background: rgba(15,23,42,0.3);">
+                            <span class="image-preview-text" style="color: var(--text-muted);">Önizleme Yok</span>
                         </div>
 
                         <div style="margin-top: 1rem;">
                             <label class="form-label" for="img_url">Veya Görsel Yolu (Manuel)</label>
-                            <input type="text" name="img_url" id="img_url" class="form-control" placeholder="Örn: foto.img/bodrum_vip.jpg" value="{{ old('img_url') }}">
+                            <input type="text" name="img_url" id="img_url" class="form-control" placeholder="Örn: foto.img/bodrum.jpg" value="{{ old('img_url') }}">
                         </div>
                     </div>
                 </div>
@@ -116,11 +143,14 @@
                 reader.onload = function(e) {
                     const img = document.createElement('img');
                     img.setAttribute('src', e.target.result);
+                    img.style.maxWidth = '100%';
+                    img.style.maxHeight = '100%';
+                    img.style.objectFit = 'contain';
                     previewBox.appendChild(img);
                 }
                 reader.readAsDataURL(input.files[0]);
             } else {
-                previewBox.innerHTML = '<span class="image-preview-text">Önizleme Yok</span>';
+                previewBox.innerHTML = '<span class="image-preview-text" style="color: var(--text-muted);">Önizleme Yok</span>';
             }
         }
     </script>

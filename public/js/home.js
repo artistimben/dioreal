@@ -12,39 +12,44 @@ const initHome = () => {
     }
 
 
-    /* ── DESTINATIONS SLIDER SCROLL (AUTO + DRAG) ── */
-    document.querySelectorAll('.dest-row').forEach(slider => {
-        if (!slider) return;
-        
-        const originalChildrenCount = slider.children.length;
-        if (originalChildrenCount === 0) return;
+    // ── DESTINATIONS TAB SWITCHING ──
+    const tabs = document.querySelectorAll('.bt-tabs-nav li');
+    if (tabs.length > 0) {
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
 
-        // Simple drag scroll
-        let isDown = false;
-        let startX;
-        let scrollLeft;
+                const targetType = tab.getAttribute('data-type');
+                document.querySelectorAll('.yurtdisi-pane').forEach(pane => {
+                    if (pane.id === `panel-${targetType}`) {
+                        pane.style.display = '';
+                    } else {
+                        pane.style.display = 'none';
+                    }
+                });
+            });
+        });
+    }
 
-        slider.addEventListener('mousedown', (e) => {
-            isDown = true;
-            slider.classList.add('active');
-            startX = e.pageX - slider.offsetLeft;
-            scrollLeft = slider.scrollLeft;
-        });
-        slider.addEventListener('mouseleave', () => {
-            isDown = false;
-            slider.classList.remove('active');
-        });
-        slider.addEventListener('mouseup', () => {
-            isDown = false;
-            slider.classList.remove('active');
-        });
-        slider.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - slider.offsetLeft;
-            const walk = (x - startX) * 2;
-            slider.scrollLeft = scrollLeft - walk;
-        });
+    // ── DYNAMIC LANGUAGE TOGGLE FOR DB FIELDS ──
+    const handleDynamicLang = (lang) => {
+        if (lang === 'tr') {
+            document.querySelectorAll('.lang-tr-text').forEach(el => el.style.display = '');
+            document.querySelectorAll('.lang-en-text').forEach(el => el.style.display = 'none');
+        } else {
+            document.querySelectorAll('.lang-tr-text').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.lang-en-text').forEach(el => el.style.display = '');
+        }
+    };
+
+    // Check initial language
+    const currentLang = localStorage.getItem('dioreal_lang') || 'tr';
+    handleDynamicLang(currentLang);
+
+    // Listen for custom langChanged event from central i18n
+    document.addEventListener('langChanged', (e) => {
+        handleDynamicLang(e.detail);
     });
 };
 

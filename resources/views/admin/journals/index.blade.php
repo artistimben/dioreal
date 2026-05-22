@@ -43,7 +43,10 @@
                                 <div style="margin-top: 4px;"><span class="badge badge-primary" style="opacity:0.7;">EN</span> {{ $journal->tag['en'] ?? '' }}</div>
                             </td>
                             <td>
-                                <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                                <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+                                    <a href="{{ route('journal.detay', $journal->id) }}" class="btn btn-outline btn-sm" target="_blank" title="Sayfayı Görüntüle">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
                                     <a href="{{ route('admin.journals.edit', $journal->id) }}" class="btn btn-outline btn-sm">
                                         <i class="fas fa-edit"></i> Düzenle
                                     </a>

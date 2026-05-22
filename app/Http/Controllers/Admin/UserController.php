@@ -25,7 +25,8 @@ class UserController extends Controller
             'events' => 'Etkinlikler (Events)',
             'journals' => 'Journal',
             'settings' => 'Genel Ayarlar (Settings)',
-            'users' => 'Kullanıcı Yönetimi (User Management)'
+            'users' => 'Kullanıcı Yönetimi (User Management)',
+            'destinations' => 'Anasayfa Destinasyonları (Destinations)'
         ];
 
         return view('admin.users.create', compact('permissionsList'));
@@ -62,7 +63,8 @@ class UserController extends Controller
             'events' => 'Etkinlikler (Events)',
             'journals' => 'Journal',
             'settings' => 'Genel Ayarlar (Settings)',
-            'users' => 'Kullanıcı Yönetimi (User Management)'
+            'users' => 'Kullanıcı Yönetimi (User Management)',
+            'destinations' => 'Anasayfa Destinasyonları (Destinations)'
         ];
 
         return view('admin.users.edit', compact('user', 'permissionsList'));

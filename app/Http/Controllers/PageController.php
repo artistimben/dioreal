@@ -14,7 +14,8 @@ class PageController extends Controller
 {
     public function index()
     {
-        return view("index");
+        $destinations = \App\Models\Destination::orderBy('order')->get()->groupBy('type');
+        return view("index", compact("destinations"));
     }
 
     public function hakkimizda()
@@ -70,5 +71,13 @@ class PageController extends Controller
     {
         $restoran = Restaurant::findOrFail($id);
         return view("restoran-detay", compact("restoran"));
+    }
+
+    public function journalDetay($id)
+    {
+        $journal = \App\Models\Journal::findOrFail($id);
+        // Get related/recent articles for sidebar (excluding current)
+        $related = \App\Models\Journal::where('id', '!=', $id)->latest()->take(4)->get();
+        return view("journal-detay", compact("journal", "related"));
     }
 }

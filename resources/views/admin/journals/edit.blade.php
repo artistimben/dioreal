@@ -3,15 +3,20 @@
 @section('title', 'Journal Yazısını Düzenle')
 
 @section('page_title', 'Journal Yazısını Düzenle')
-@section('page_subtitle', 'Mevcut journal makalesi bilgilerini ve görsellerini güncelleyin.')
+@section('page_subtitle', 'Mevcut journal yazısını güncelleyin.')
 
 @section('content')
     <div class="panel-card">
         <div class="panel-card-header">
             <h3 class="panel-card-title"><i class="fas fa-edit"></i> Journal Düzenleme Formu</h3>
-            <a href="{{ route('admin.journals.index') }}" class="btn btn-outline">
-                <i class="fas fa-arrow-left"></i> Geri Dön
-            </a>
+            <div style="display:flex; gap:0.75rem;">
+                <a href="{{ route('journal.detay', $journal->id) }}" class="btn btn-outline" target="_blank">
+                    <i class="fas fa-eye"></i> Görüntüle
+                </a>
+                <a href="{{ route('admin.journals.index') }}" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i> Geri Dön
+                </a>
+            </div>
         </div>
         
         <form action="{{ route('admin.journals.update', $journal->id) }}" method="POST" enctype="multipart/form-data">
@@ -41,8 +46,13 @@
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="desc_tr">Açıklama / Makale İçeriği (TR)</label>
-                    <textarea name="desc[tr]" id="desc_tr" class="form-control" required style="min-height: 200px;">{{ old('desc.tr', $journal->desc['tr'] ?? '') }}</textarea>
+                    <label class="form-label" for="desc_tr">Kısa Özet (TR) <small style="color: var(--text-muted);">— Liste sayfasında ve hero altında görünür</small></label>
+                    <textarea name="desc[tr]" id="desc_tr" class="form-control" required style="min-height: 120px;">{{ old('desc.tr', $journal->desc['tr'] ?? '') }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="content_tr">Tam Makale İçeriği (TR) <small style="color: var(--text-muted);">— Detay sayfasında gösterilir</small></label>
+                    <textarea name="content[tr]" id="content_tr" class="form-control" style="min-height: 350px;">{{ old('content.tr', $journal->content['tr'] ?? '') }}</textarea>
                 </div>
             </div>
 
@@ -59,8 +69,13 @@
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="desc_en">Description / Article Content (EN)</label>
-                    <textarea name="desc[en]" id="desc_en" class="form-control" required style="min-height: 200px;">{{ old('desc.en', $journal->desc['en'] ?? '') }}</textarea>
+                    <label class="form-label" for="desc_en">Short Summary (EN) <small style="color: var(--text-muted);">— Shown in listings and hero</small></label>
+                    <textarea name="desc[en]" id="desc_en" class="form-control" required style="min-height: 120px;">{{ old('desc.en', $journal->desc['en'] ?? '') }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="content_en">Full Article Content (EN) <small style="color: var(--text-muted);">— Shown on the detail page</small></label>
+                    <textarea name="content[en]" id="content_en" class="form-control" style="min-height: 350px;">{{ old('content.en', $journal->content['en'] ?? '') }}</textarea>
                 </div>
             </div>
 
@@ -68,33 +83,51 @@
             <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 2rem 0;">
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
-                <!-- Date Info -->
-                <div class="form-group">
-                    <label class="form-label" for="date">Yayın Tarihi Metni</label>
-                    <input type="text" name="date" id="date" class="form-control" value="{{ old('date', $journal->date) }}" required>
+                <!-- Date & Meta -->
+                <div>
+                    <div class="form-group">
+                        <label class="form-label" for="date">Yayın Tarihi Metni</label>
+                        <input type="text" name="date" id="date" class="form-control" value="{{ old('date', $journal->date) }}" required>
+                        <small style="color: var(--text-muted); display:block; margin-top:0.25rem;">Sitede görünecek tarih etiketini manuel girin.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="read_time">Tahmini Okuma Süresi (Dakika)</label>
+                        <input type="number" name="read_time" id="read_time" class="form-control" value="{{ old('read_time', $journal->read_time) }}" min="1" max="120">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" style="display:flex; align-items:center; gap:0.75rem; cursor:pointer;">
+                            <input type="hidden" name="is_featured" value="0">
+                            <input type="checkbox" name="is_featured" value="1" {{ old('is_featured', $journal->is_featured) ? 'checked' : '' }}
+                                style="width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer;">
+                            Öne Çıkarılmış Yazı (Featured)
+                        </label>
+                        <small style="color: var(--text-muted); display:block; margin-top:0.25rem;">İşaretlenirse anasayfa veya özel alanda gösterilebilir.</small>
+                    </div>
                 </div>
 
                 <!-- Cover Image -->
                 <div>
                     <label class="form-label">Görsel (Kapak)</label>
                     <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                        <input type="file" name="img_file" id="img_file" accept="image/*" style="display:none;" onchange="previewImage(this, 'img_preview')">
+                        <input type="file" name="img_file" id="img_file" accept="image/*" style="display:none;" onchange="previewImage(this, 'img_preview_new')">
                         <button type="button" class="btn btn-outline" onclick="document.getElementById('img_file').click()">
                             <i class="fas fa-sync-alt"></i> Farklı Bir Görsel Seç
                         </button>
-                        
+
                         <div style="display: flex; gap: 1rem; align-items: center; margin-top: 0.5rem;">
                             <div>
                                 <span style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Mevcut Görsel:</span>
-                                <div class="image-preview-box" style="width: 150px; height: 100px;">
-                                    <img src="{{ asset($journal->img) }}" alt="">
+                                <div style="width: 120px; height: 80px; overflow:hidden; border-radius:4px; border:1px solid var(--border-color);">
+                                    <img src="{{ asset($journal->img) }}" alt="" style="width:100%; height:100%; object-fit:cover;">
                                 </div>
                             </div>
                             <i class="fas fa-arrow-right" style="color: var(--text-muted);"></i>
                             <div>
                                 <span style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Yeni Görsel Önizleme:</span>
-                                <div class="image-preview-box" id="img_preview" style="width: 150px; height: 100px;">
-                                    <span class="image-preview-text">Değişiklik Yok</span>
+                                <div id="img_preview_new" style="width: 120px; height: 80px; overflow:hidden; border-radius:4px; border:1px dashed var(--border-color); display:flex; align-items:center; justify-content:center; background: rgba(15,23,42,0.3);">
+                                    <span style="font-size:0.7rem; color: var(--text-muted);">Değişiklik Yok</span>
                                 </div>
                             </div>
                         </div>
@@ -117,7 +150,7 @@
         </form>
     </div>
 
-    <!-- Image Previews Handler -->
+    <!-- Image Preview Handler -->
     <script>
         function previewImage(input, previewId) {
             const previewBox = document.getElementById(previewId);
@@ -128,11 +161,14 @@
                 reader.onload = function(e) {
                     const img = document.createElement('img');
                     img.setAttribute('src', e.target.result);
+                    img.style.width = '100%';
+                    img.style.height = '100%';
+                    img.style.objectFit = 'cover';
                     previewBox.appendChild(img);
                 }
                 reader.readAsDataURL(input.files[0]);
             } else {
-                previewBox.innerHTML = '<span class="image-preview-text">Değişiklik Yok</span>';
+                previewBox.innerHTML = '<span style="font-size:0.7rem; color: var(--text-muted);">Değişiklik Yok</span>';
             }
         }
     </script>

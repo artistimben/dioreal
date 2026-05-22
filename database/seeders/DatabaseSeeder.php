@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Admin User',
                 'password' => Hash::make('admin123'),
                 'role' => 'super_admin',
-                'permissions' => ['hotels', 'restaurants', 'yachts', 'guides', 'events', 'journals', 'settings', 'users'],
+                'permissions' => ['hotels', 'restaurants', 'yachts', 'guides', 'events', 'journals', 'settings', 'users', 'destinations'],
             ]
         );
 
@@ -64,5 +64,6 @@ class DatabaseSeeder extends Seeder
 
         // Run resource content import
         $this->call(JsonToDbSeeder::class);
+        $this->call(DestinationSeeder::class);
     }
 }

@@ -254,6 +254,59 @@
     transform: scale(1.05);
 }
 
+/* ── INFINITE MARQUEE SCROLL ── */
+.marquee-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 1rem 0;
+}
+
+.marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll 45s linear infinite;
+}
+
+/* Pause scroll on hover */
+.marquee-track:hover {
+    animation-play-state: paused;
+}
+
+.marquee-content {
+    display: flex;
+    gap: 2rem;
+    padding-right: 2rem;
+}
+
+@keyframes marquee-scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.bt-tabs-nav li {
+    color: rgba(0,0,0,0.5);
+    cursor: pointer;
+    padding-bottom: 1rem;
+    margin-bottom: -1rem;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.bt-tabs-nav li.active {
+    color: var(--black) !important;
+    font-weight: bold;
+    border-bottom: 2px solid var(--black) !important;
+}
+
+.yurtdisi-pane {
+    width: 100%;
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
     .bt-about-grid { grid-template-columns: repeat(2, 1fr); }

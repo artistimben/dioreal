@@ -80,3 +80,20 @@
     .journal-featured { height: 350px; }
     .journal-side { margin-top: 1rem; }
 }
+
+/* Read more link in sidebar items */
+.journal-read-more {
+    display: inline-block;
+    margin-top: 0.4rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+.journal-read-more:hover { opacity: 0.7; }
+
+/* Language toggle for DB-sourced text */
+.lang-text-tr, .lang-text-en { display: inherit; }
+

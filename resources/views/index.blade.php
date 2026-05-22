@@ -191,155 +191,130 @@
             <p style="color: var(--dark-gray); max-width: 300px; text-align: right; font-size: 0.95rem; margin-bottom: 1rem;" data-i18n="dest_tr_desc">Benzersiz deneyimlerin ilham veren hikayesi</p>
         </div>
 
-        <div class="dest-row" style="padding: 0 5rem; display: flex; gap: 2rem; text-align: left; width: 100vw; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; cursor: grab;">
-            
-            <!-- İstanbul -->
-            <div class="dest-card-h">
-                <div class="dest-img-container">
-                    <div class="dest-img" style="background-image:url('foto.img/istanbul.jpg'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
-                </div>
-                <div class="dest-info-ext">
-                    <div class="dest-region">Metropol</div>
-                    <div class="dest-name-grid" data-i18n="dest_istanbul">İstanbul</div>
-                </div>
-            </div>
-            <!-- Bodrum -->
-            <div class="dest-card-h">
-                <div class="dest-img-container">
-                    <div class="dest-img" style="background-image:url('foto.img/bodrum.jpg'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
-                </div>
-                <div class="dest-info-ext">
-                    <div class="dest-region">Luxury & Beach</div>
-                    <div class="dest-name-grid" data-i18n="dest_bodrum">Bodrum</div>
-                </div>
-            </div>
-            <!-- Fethiye -->
-            <div class="dest-card-h">
-                <div class="dest-img-container">
-                    <div class="dest-img" style="background-image:url('foto.img/fethiye.jpg'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
-                </div>
-                <div class="dest-info-ext">
-                    <div class="dest-region">Nature & Yachting</div>
-                    <div class="dest-name-grid" data-i18n="dest_fethiye">Fethiye</div>
-                </div>
-            </div>
-            <!-- Kapadokya -->
-            <div class="dest-card-h">
-                <div class="dest-img-container">
-                    <div class="dest-img" style="background-image:url('foto.img/kapadokya.jpg'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
-                </div>
-                <div class="dest-info-ext">
-                    <div class="dest-region">Culture & Magic</div>
-                    <div class="dest-name-grid" data-i18n="dest_kapadokya">Kapadokya</div>
-                </div>
-            </div>
-            <!-- Çeşme -->
-            <div class="dest-card-h">
-                <div class="dest-img-container">
-                    <div class="dest-img" style="background-image:url('foto.img/cesme.jpg'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
-                </div>
-                <div class="dest-info-ext">
-                    <div class="dest-region">Aegean Spirit</div>
-                    <div class="dest-name-grid" data-i18n="dest_cesme">Çeşme</div>
+        @if(isset($destinations['turkiye']) && count($destinations['turkiye']) > 0)
+            <div class="marquee-container">
+                <div class="marquee-track">
+                    <div class="marquee-content">
+                        @foreach($destinations['turkiye'] as $dest)
+                            <div class="dest-card-h">
+                                <div class="dest-img-container">
+                                    <div class="dest-img" style="background-image:url('{{ asset($dest->img) }}'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
+                                </div>
+                                <div class="dest-info-ext">
+                                    <div class="dest-region">
+                                        <span class="lang-tr-text">{{ $dest->region['tr'] ?? '' }}</span>
+                                        <span class="lang-en-text" style="display:none;">{{ $dest->region['en'] ?? '' }}</span>
+                                    </div>
+                                    <div class="dest-name-grid">
+                                        <span class="lang-tr-text">{{ $dest->name['tr'] ?? '' }}</span>
+                                        <span class="lang-en-text" style="display:none;">{{ $dest->name['en'] ?? '' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="marquee-content" aria-hidden="true">
+                        @foreach($destinations['turkiye'] as $dest)
+                            <div class="dest-card-h">
+                                <div class="dest-img-container">
+                                    <div class="dest-img" style="background-image:url('{{ asset($dest->img) }}'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
+                                </div>
+                                <div class="dest-info-ext">
+                                    <div class="dest-region">
+                                        <span class="lang-tr-text">{{ $dest->region['tr'] ?? '' }}</span>
+                                        <span class="lang-en-text" style="display:none;">{{ $dest->region['en'] ?? '' }}</span>
+                                    </div>
+                                    <div class="dest-name-grid">
+                                        <span class="lang-tr-text">{{ $dest->name['tr'] ?? '' }}</span>
+                                        <span class="lang-en-text" style="display:none;">{{ $dest->name['en'] ?? '' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
-            <!-- Kaş -->
-            <div class="dest-card-h">
-                <div class="dest-img-container">
-                    <div class="dest-img" style="background-image:url('foto.img/kas.jpg'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
-                </div>
-                <div class="dest-info-ext">
-                    <div class="dest-region">Boutique & Slow</div>
-                    <div class="dest-name-grid" data-i18n="dest_kas">Kaş</div>
-                </div>
+        @else
+            <div style="color: var(--mid-gray); padding: 2rem;">
+                <span class="lang-tr-text">Henüz destinasyon eklenmedi.</span>
+                <span class="lang-en-text" style="display:none;">No destinations added yet.</span>
             </div>
-            <!-- Datça -->
-            <div class="dest-card-h">
-                <div class="dest-img-container">
-                    <div class="dest-img" style="background-image:url('foto.img/datca.jpg'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
-                </div>
-                <div class="dest-info-ext">
-                    <div class="dest-region">Pure Nature</div>
-                    <div class="dest-name-grid" data-i18n="dest_datca">Datça</div>
-                </div>
-            </div>
-        </div>
+        @endif
     </section>
 
-<!-- NEW: Destinations (Yurtdışı) - BLACK TOMATO PHOTO 1 LAYOUT (START YOUR JOURNEY) -->
+    <!-- NEW: Destinations (Yurtdışı) - BLACK TOMATO PHOTO 1 LAYOUT (START YOUR JOURNEY) -->
     <section class="dest-section bt-horizontal-scroll" id="yurtdisi" style="background: var(--white); padding: 7rem 0 7rem 0; text-align: center; overflow: hidden; display: flex; flex-direction: column; align-items: center;">
         <h2 style="font-family: var(--font-condensed); font-size: 3.5rem; text-transform: uppercase; font-weight: 500; letter-spacing: 0.05em; margin-bottom: 2rem; color: var(--near-black);" data-i18n="dest_en_main">YOLCULUĞUNUZA BAŞLAYIN</h2>
         
         <ul class="bt-tabs-nav" style="display: flex; justify-content: center; gap: 3rem; list-style: none; margin-bottom: 4rem; font-size: 0.8rem; font-family: var(--font-body); letter-spacing: 0.15em; text-transform: uppercase; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 1rem; width: 90%; margin-left: auto; margin-right: auto;">
-            <li style="color: rgba(0,0,0,0.5); cursor: pointer;" data-i18n="tab_popular">EN POPÜLER</li>
-            <li style="border-bottom: 2px solid var(--black); padding-bottom: 1rem; margin-bottom: -1rem; color: var(--black); font-weight: bold; cursor: pointer;" data-i18n="tab_traveller">GEZGİNE GÖRE</li>
-            <li style="color: rgba(0,0,0,0.5); cursor: pointer;" data-i18n="tab_month">AYA GÖRE</li>
-            <li style="color: rgba(0,0,0,0.5); cursor: pointer;" data-i18n="tab_spotlight">VİTRİNDEKİLER</li>
+            <li class="active" data-type="yurtdisi_popular" data-i18n="tab_popular">EN POPÜLER</li>
+            <li data-type="yurtdisi_traveller" data-i18n="tab_traveller">GEZGİNE GÖRE</li>
+            <li data-type="yurtdisi_month" data-i18n="tab_month">AYA GÖRE</li>
+            <li data-type="yurtdisi_spotlight" data-i18n="tab_spotlight">VİTRİNDEKİLER</li>
         </ul>
 
-        <div class="dest-row" style="padding: 0 5rem; display: flex; gap: 2rem; text-align: left; width: 100vw; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; cursor: grab;">
-            
-            <!-- Maldivler -->
-            <div class="dest-card-h">
-                <div class="dest-img-container">
-                    <div class="dest-img" style="background-image:url('foto.img/maldivler.jpg'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
-                </div>
-                <div class="dest-info-ext">
-                    <div class="dest-region">Tropik</div>
-                    <div class="dest-name-grid" data-i18n="mq_mald">Maldivler</div>
-                </div>
+        @php
+            $types = [
+                'yurtdisi_popular',
+                'yurtdisi_traveller',
+                'yurtdisi_month',
+                'yurtdisi_spotlight'
+            ];
+        @endphp
+
+        @foreach($types as $type)
+            <div id="panel-{{ $type }}" class="yurtdisi-pane" style="{{ $type === 'yurtdisi_popular' ? '' : 'display: none;' }}">
+                @if(isset($destinations[$type]) && count($destinations[$type]) > 0)
+                    <div class="marquee-container">
+                        <div class="marquee-track">
+                            <div class="marquee-content">
+                                @foreach($destinations[$type] as $dest)
+                                    <div class="dest-card-h">
+                                        <div class="dest-img-container">
+                                            <div class="dest-img" style="background-image:url('{{ asset($dest->img) }}'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
+                                        </div>
+                                        <div class="dest-info-ext">
+                                            <div class="dest-region">
+                                                <span class="lang-tr-text">{{ $dest->region['tr'] ?? '' }}</span>
+                                                <span class="lang-en-text" style="display:none;">{{ $dest->region['en'] ?? '' }}</span>
+                                            </div>
+                                            <div class="dest-name-grid">
+                                                <span class="lang-tr-text">{{ $dest->name['tr'] ?? '' }}</span>
+                                                <span class="lang-en-text" style="display:none;">{{ $dest->name['en'] ?? '' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="marquee-content" aria-hidden="true">
+                                @foreach($destinations[$type] as $dest)
+                                    <div class="dest-card-h">
+                                        <div class="dest-img-container">
+                                            <div class="dest-img" style="background-image:url('{{ asset($dest->img) }}'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
+                                        </div>
+                                        <div class="dest-info-ext">
+                                            <div class="dest-region">
+                                                <span class="lang-tr-text">{{ $dest->region['tr'] ?? '' }}</span>
+                                                <span class="lang-en-text" style="display:none;">{{ $dest->region['en'] ?? '' }}</span>
+                                            </div>
+                                            <div class="dest-name-grid">
+                                                <span class="lang-tr-text">{{ $dest->name['tr'] ?? '' }}</span>
+                                                <span class="lang-en-text" style="display:none;">{{ $dest->name['en'] ?? '' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <div style="color: var(--mid-gray); padding: 2rem;">
+                        <span class="lang-tr-text">Henüz destinasyon eklenmedi.</span>
+                        <span class="lang-en-text" style="display:none;">No destinations added yet.</span>
+                    </div>
+                @endif
             </div>
-            <!-- Japonya -->
-            <div class="dest-card-h">
-                <div class="dest-img-container">
-                    <div class="dest-img" style="background-image:url('foto.img/japonya.jpg'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
-                </div>
-                <div class="dest-info-ext">
-                    <div class="dest-region">Asya & Kültür</div>
-                    <div class="dest-name-grid" data-i18n="mq_jap">Japonya</div>
-                </div>
-            </div>
-            <!-- Patagonya -->
-            <div class="dest-card-h">
-                <div class="dest-img-container">
-                    <div class="dest-img" style="background-image:url('foto.img/patagonya.jpg'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
-                </div>
-                <div class="dest-info-ext">
-                    <div class="dest-region">Vahşi Doğa</div>
-                    <div class="dest-name-grid" data-i18n="mq_pat">Patagonya</div>
-                </div>
-            </div>
-            <!-- Amalfi -->
-            <div class="dest-card-h">
-                <div class="dest-img-container">
-                    <div class="dest-img" style="background-image:url('foto.img/amalfi.jpg'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
-                </div>
-                <div class="dest-info-ext">
-                    <div class="dest-region">Akdeniz Rüyası</div>
-                    <div class="dest-name-grid" data-i18n="mq_ama">Amalfi Kıyısı</div>
-                </div>
-            </div>
-            <!-- Norveç -->
-            <div class="dest-card-h">
-                <div class="dest-img-container">
-                    <div class="dest-img" style="background-image:url('foto.img/norvec.jpg'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
-                </div>
-                <div class="dest-info-ext">
-                    <div class="dest-region">Kuzey Işıkları</div>
-                    <div class="dest-name-grid" data-i18n="mq_nor">Norveç Fiyortları</div>
-                </div>
-            </div>
-            <!-- Sahra Çölü -->
-            <div class="dest-card-h">
-                <div class="dest-img-container">
-                    <div class="dest-img" style="background-image:url('foto.img/sahra.jpg'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
-                </div>
-                <div class="dest-info-ext">
-                    <div class="dest-region">Sonsuzluk</div>
-                    <div class="dest-name-grid" data-i18n="mq_sah">Sahra Çölü</div>
-                </div>
-            </div>
-            </div>
+        @endforeach
     </section>
 
     <!-- NEW: Collaborations Grid -->

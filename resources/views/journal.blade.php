@@ -24,14 +24,14 @@
             </a>
         </div>
         <ul class="nav-links">
-            <li><a href="index.html" data-i18n="nav_home">Ana Sayfa</a></li>
-            <li><a href="hakkimizda.html" data-i18n="nav_about">Hakkımızda</a></li>
-            <li><a href="oteller.html" data-i18n="nav_hotels">Oteller</a></li>
-            <li><a href="yatlar.html" data-i18n="nav_yachts">Yatlar</a></li>
-            <li><a href="restoranlar.html" data-i18n="nav_restaurants">Restoranlar</a></li>
-            <li><a href="gezi-rehberi.html" data-i18n="nav_guide">Gezi Rehberi</a></li>
-            <li><a href="etkinlikler.html" data-i18n="nav_events">Etkinlikler</a></li>
-            <li><a href="journal.html" class="active-page" data-i18n="nav_journal">Journal</a></li>
+            <li><a href="{{ route('home') }}" data-i18n="nav_home">Ana Sayfa</a></li>
+            <li><a href="{{ route('hakkimizda') }}" data-i18n="nav_about">Hakkımızda</a></li>
+            <li><a href="{{ route('oteller') }}" data-i18n="nav_hotels">Oteller</a></li>
+            <li><a href="{{ route('yatlar') }}" data-i18n="nav_yachts">Yatlar</a></li>
+            <li><a href="{{ route('restoranlar') }}" data-i18n="nav_restaurants">Restoranlar</a></li>
+            <li><a href="{{ route('gezi-rehberi') }}" data-i18n="nav_guide">Gezi Rehberi</a></li>
+            <li><a href="{{ route('etkinlikler') }}" data-i18n="nav_events">Etkinlikler</a></li>
+            <li><a href="{{ route('journal') }}" class="active-page" data-i18n="nav_journal">Journal</a></li>
         </ul>
         <div class="nav-right">
             <div class="lang-switch desk-lang">
@@ -46,15 +46,15 @@
     </nav>
     <div class="fs-menu" id="fsMenu">
         <ul class="fs-links">
-            <li><a href="index.html" data-i18n="nav_home">Ana Sayfa</a></li>
-            <li><a href="hakkimizda.html" data-i18n="nav_about">Hakkımızda</a></li>
-            <li><a href="oteller.html" data-i18n="nav_hotels">Oteller</a></li>
-            <li><a href="yatlar.html" data-i18n="nav_yachts">Yatlar</a></li>
-            <li><a href="restoranlar.html" data-i18n="nav_restaurants">Restoranlar</a></li>
+            <li><a href="{{ route('home') }}" data-i18n="nav_home">Ana Sayfa</a></li>
+            <li><a href="{{ route('hakkimizda') }}" data-i18n="nav_about">Hakkımızda</a></li>
+            <li><a href="{{ route('oteller') }}" data-i18n="nav_hotels">Oteller</a></li>
+            <li><a href="{{ route('yatlar') }}" data-i18n="nav_yachts">Yatlar</a></li>
+            <li><a href="{{ route('restoranlar') }}" data-i18n="nav_restaurants">Restoranlar</a></li>
             <div class="fs-divider"></div>
-            <li><a href="gezi-rehberi.html" data-i18n="nav_guide">Gezi Rehberi</a></li>
-            <li><a href="etkinlikler.html" data-i18n="nav_events">Etkinlikler</a></li>
-            <li><a href="journal.html" data-i18n="nav_journal">Journal</a></li>
+            <li><a href="{{ route('gezi-rehberi') }}" data-i18n="nav_guide">Gezi Rehberi</a></li>
+            <li><a href="{{ route('etkinlikler') }}" data-i18n="nav_events">Etkinlikler</a></li>
+            <li><a href="{{ route('journal') }}" data-i18n="nav_journal">Journal</a></li>
             <li style="font-size:1.5rem;font-family:var(--font-display);margin-top:2rem;"><span id="lang-tr-fs" class="lang-btn active">TR</span> | <span id="lang-en-fs" class="lang-btn">EN</span></li>
         </ul>
     </div>
@@ -85,7 +85,7 @@
                             <span class="lang-text-tr">{{ $featured->desc['tr'] ?? '' }}</span>
                             <span class="lang-text-en">{{ $featured->desc['en'] ?? '' }}</span>
                         </p>
-                        <a href="#" class="btn btn-outline">
+                        <a href="{{ route('journal.detay', $featured->id) }}" class="btn btn-outline">
                             <span class="lang-text-tr">Okumaya Devam Et</span>
                             <span class="lang-text-en">Continue Reading</span>
                         </a>
@@ -95,7 +95,7 @@
 
             <div class="journal-side">
                 @foreach($journals->slice(1, 4) as $sideItem)
-                    <div class="journal-side-item">
+                    <div class="journal-side-item" onclick="window.location='{{ route('journal.detay', $sideItem->id) }}'" style="cursor:pointer;">
                         <img src="{{ asset($sideItem->img) }}" alt="{{ $sideItem->title['tr'] ?? '' }}">
                         <div>
                             <span class="journal-date">{{ $sideItem->date }}</span>
@@ -103,6 +103,10 @@
                                 <span class="lang-text-tr">{{ $sideItem->title['tr'] ?? '' }}</span>
                                 <span class="lang-text-en">{{ $sideItem->title['en'] ?? '' }}</span>
                             </div>
+                            <a href="{{ route('journal.detay', $sideItem->id) }}" class="journal-read-more">
+                                <span class="lang-text-tr">Oku &rarr;</span>
+                                <span class="lang-text-en">Read &rarr;</span>
+                            </a>
                         </div>
                     </div>
                 @endforeach
@@ -114,7 +118,7 @@
             <h2 class="content-title reveal" style="margin-bottom:2.5rem;" data-i18n="journal_latest_title">Son <em>Yazılar</em></h2>
             <div class="card-grid">
                 @foreach($journals->slice(5) as $index => $item)
-                    <div class="card reveal" style="transition-delay:{{ ($index % 3) * 0.1 }}s">
+                    <a href="{{ route('journal.detay', $item->id) }}" class="card reveal" style="transition-delay:{{ ($index % 3) * 0.1 }}s; text-decoration: none; color: inherit; display: block;">
                         <div class="card-img" style="background-image:url('{{ asset($item->img) }}');"></div>
                         <div class="card-body">
                             <span class="card-tag">
@@ -130,7 +134,7 @@
                                 <span class="lang-text-en">{{ $item->desc['en'] ?? '' }}</span>
                             </p>
                         </div>
-                    </div>
+                    </a>
                 @endforeach
             </div>
         @endif

@@ -71,6 +71,13 @@
                 </a>
             </li>
             @endadminCan
+            @adminCan('destinations')
+            <li class="sidebar-item {{ Request::routeIs('admin.destinations.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.destinations.index') }}">
+                    <i class="fas fa-map-signs"></i> Destinasyonlar
+                </a>
+            </li>
+            @endadminCan
             @adminCan('users')
             <li class="sidebar-item {{ Request::routeIs('admin.users.*') ? 'active' : '' }}">
                 <a href="{{ route('admin.users.index') }}">

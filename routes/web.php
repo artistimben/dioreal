@@ -35,6 +35,7 @@ Route::get('/journal.html', [PageController::class, 'journal']);
 // Detail Pages
 Route::get('/otel/{id}', [PageController::class, 'otelDetay'])->name('otel.detay');
 Route::get('/restoran/{id}', [PageController::class, 'restoranDetay'])->name('restoran.detay');
+Route::get('/journal/{id}', [PageController::class, 'journalDetay'])->name('journal.detay');
 
 // Authentication Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -54,6 +55,9 @@ Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function ()
     
     // Users Management
     Route::middleware(['permission:users'])->resource('users', App\Http\Controllers\Admin\UserController::class);
+    
+    // Destinations Management
+    Route::middleware(['permission:destinations'])->resource('destinations', App\Http\Controllers\Admin\DestinationController::class);
     
     // Global Settings & Brands Management
     Route::middleware(['permission:settings'])->group(function () {

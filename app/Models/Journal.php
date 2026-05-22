@@ -9,7 +9,9 @@ class Journal extends Model
     protected $casts = [
         "title" => "array",
         "desc" => "array",
-        "tag" => "array"
+        "tag" => "array",
+        "content" => "array",
+        "is_featured" => "boolean",
     ];
 
     protected $guarded = [];
