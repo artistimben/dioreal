@@ -45,7 +45,7 @@ class EventController extends Controller
             'desc.tr' => 'required|string',
             'desc.en' => 'required|string',
             'day' => 'required|string|max:255',
-            'img_file' => 'nullable|image|max:5120',
+            'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
         ]);
 
@@ -82,7 +82,7 @@ class EventController extends Controller
             'desc.tr' => 'required|string',
             'desc.en' => 'required|string',
             'day' => 'required|string|max:255',
-            'img_file' => 'nullable|image|max:5120',
+            'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
         ]);
 

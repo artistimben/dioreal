@@ -185,6 +185,36 @@
                 }
             });
         }
+
+        // ── Client-side file size guard (max 50 MB per file) ──
+        const MAX_FILE_MB = 50;
+        const MAX_FILE_BYTES = MAX_FILE_MB * 1024 * 1024;
+
+        document.addEventListener('change', function (e) {
+            if (e.target && e.target.type === 'file') {
+                const files = Array.from(e.target.files);
+                const oversized = files.filter(f => f.size > MAX_FILE_BYTES);
+                if (oversized.length > 0) {
+                    const names = oversized.map(f => `"${f.name}" (${(f.size / 1024 / 1024).toFixed(1)} MB)`).join(', ');
+                    alert(`⚠️ Dosya boyutu sınırı aşıldı!\n\n${names}\n\nMaksimum dosya boyutu: ${MAX_FILE_MB} MB\nLütfen daha küçük bir görsel seçin veya görseli sıkıştırın.`);
+                    e.target.value = '';
+                }
+            }
+        });
+
+        // Block form submit if any file input has oversized files
+        document.addEventListener('submit', function (e) {
+            const fileInputs = e.target.querySelectorAll('input[type="file"]');
+            for (const input of fileInputs) {
+                const files = Array.from(input.files || []);
+                const oversized = files.filter(f => f.size > MAX_FILE_BYTES);
+                if (oversized.length > 0) {
+                    e.preventDefault();
+                    alert(`⚠️ Yüklemek istediğiniz görsel ${MAX_FILE_MB} MB limitini aşıyor. Lütfen görseli sıkıştırın.`);
+                    return false;
+                }
+            }
+        });
     </script>
 </body>
 </html>

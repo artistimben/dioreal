@@ -40,7 +40,7 @@ class GuideController extends Controller
             'tag.en' => 'nullable|string|max:255',
             'desc.tr' => 'required|string',
             'desc.en' => 'required|string',
-            'img_file' => 'nullable|image|max:5120',
+            'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
         ]);
 
@@ -72,7 +72,7 @@ class GuideController extends Controller
             'tag.en' => 'nullable|string|max:255',
             'desc.tr' => 'required|string',
             'desc.en' => 'required|string',
-            'img_file' => 'nullable|image|max:5120',
+            'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
         ]);
 

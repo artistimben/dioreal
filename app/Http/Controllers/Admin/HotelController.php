@@ -42,9 +42,9 @@ class HotelController extends Controller
             'desc.en' => 'required|string',
             'long_desc.tr' => 'nullable|string',
             'long_desc.en' => 'nullable|string',
-            'img_file' => 'nullable|image|max:5120',
+            'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
-            'gallery_files.*' => 'nullable|image|max:5120',
+            'gallery_files.*' => 'nullable|image|max:51200',
         ]);
 
         $data = $request->only(['name', 'tag', 'desc', 'long_desc']);
@@ -86,9 +86,9 @@ class HotelController extends Controller
             'desc.en' => 'required|string',
             'long_desc.tr' => 'nullable|string',
             'long_desc.en' => 'nullable|string',
-            'img_file' => 'nullable|image|max:5120',
+            'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
-            'gallery_files.*' => 'nullable|image|max:5120',
+            'gallery_files.*' => 'nullable|image|max:51200',
         ]);
 
         $data = $request->only(['name', 'tag', 'desc', 'long_desc']);

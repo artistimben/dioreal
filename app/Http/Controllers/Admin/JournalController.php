@@ -45,7 +45,7 @@ class JournalController extends Controller
             'date' => 'required|string|max:255',
             'read_time' => 'nullable|integer|min:1|max:120',
             'is_featured' => 'nullable|boolean',
-            'img_file' => 'nullable|image|max:5120',
+            'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
         ]);
 
@@ -83,7 +83,7 @@ class JournalController extends Controller
             'date' => 'required|string|max:255',
             'read_time' => 'nullable|integer|min:1|max:120',
             'is_featured' => 'nullable|boolean',
-            'img_file' => 'nullable|image|max:5120',
+            'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
         ]);
 

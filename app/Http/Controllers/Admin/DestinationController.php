@@ -47,7 +47,7 @@ class DestinationController extends Controller
             'region.en' => 'required|string|max:255',
             'type' => 'required|string|in:turkiye,yurtdisi_popular,yurtdisi_traveller,yurtdisi_month,yurtdisi_spotlight',
             'order' => 'nullable|integer',
-            'img_file' => 'nullable|image|max:5120',
+            'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
         ]);
 
@@ -87,7 +87,7 @@ class DestinationController extends Controller
             'region.en' => 'required|string|max:255',
             'type' => 'required|string|in:turkiye,yurtdisi_popular,yurtdisi_traveller,yurtdisi_month,yurtdisi_spotlight',
             'order' => 'nullable|integer',
-            'img_file' => 'nullable|image|max:5120',
+            'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
         ]);
 
