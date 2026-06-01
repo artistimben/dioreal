@@ -256,7 +256,6 @@
             </a>
         </div>
         <ul class="nav-links">
-            <li><a href="{{ url('/') }}" data-i18n="nav_home">Ana Sayfa</a></li>
             <li><a href="{{ url('/hakkimizda') }}" data-i18n="nav_about">Hakkımızda</a></li>
             <li><a href="{{ url('/oteller') }}" data-i18n="nav_hotels">Oteller</a></li>
             <li><a href="{{ url('/yatlar') }}" data-i18n="nav_yachts">Yatlar</a></li>
@@ -280,7 +279,6 @@
     <!-- Fullscreen Menu -->
     <div class="fs-menu" id="fsMenu">
         <ul class="fs-links">
-            <li><a href="{{ url('/') }}" data-i18n="nav_home">Ana Sayfa</a></li>
             <li><a href="{{ url('/hakkimizda') }}" data-i18n="nav_about">Hakkımızda</a></li>
             <li><a href="{{ url('/oteller') }}" data-i18n="nav_hotels">Oteller</a></li>
             <li><a href="{{ url('/yatlar') }}" data-i18n="nav_yachts">Yatlar</a></li>

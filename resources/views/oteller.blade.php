@@ -31,7 +31,6 @@
             </a>
         </div>
         <ul class="nav-links">
-            <li><a href="index.html" data-i18n="nav_home">Ana Sayfa</a></li>
             <li><a href="hakkimizda.html" data-i18n="nav_about">Hakkımızda</a></li>
             <li><a href="oteller.html" class="active-page" data-i18n="nav_hotels">Oteller</a></li>
             <li><a href="yatlar.html" data-i18n="nav_yachts">Yatlar</a></li>
@@ -55,7 +54,6 @@
     <!-- Fullscreen Menu -->
     <div class="fs-menu" id="fsMenu">
         <ul class="fs-links">
-            <li><a href="index.html" data-i18n="nav_home">Ana Sayfa</a></li>
             <li><a href="hakkimizda.html" data-i18n="nav_about">Hakkımızda</a></li>
             <li><a href="oteller.html" data-i18n="nav_hotels">Oteller</a></li>
             <li><a href="yatlar.html" data-i18n="nav_yachts">Yatlar</a></li>
