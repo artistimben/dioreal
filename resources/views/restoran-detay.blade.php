@@ -16,12 +16,12 @@
     <link rel="stylesheet" href="{{ asset('css/about.css') }}?v={{ time() }}">
     <style>
         body {
-            background-color: #0d0c0b;
-            color: #d1d2d3;
+            background-color: var(--off-white);
+            color: var(--dark-gray);
         }
         .page-hero {
             position: relative;
-            height: 75vh;
+            height: 60vh;
             background-size: cover;
             background-position: center;
             display: flex;
@@ -34,7 +34,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(to bottom, rgba(13, 12, 11, 0.4), rgba(13, 12, 11, 1));
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
             z-index: 1;
         }
         .page-hero-content {
@@ -54,28 +54,29 @@
         }
         .page-title {
             font-family: var(--font-display);
-            font-size: clamp(3rem, 6vw, 5rem);
+            font-size: clamp(3rem, 6vw, 4.5rem);
             line-height: 1.1;
             font-weight: 300;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
         
         .detail-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 4rem 2rem;
+            padding: 5rem 2rem;
         }
         
         .detail-grid {
             display: grid;
             grid-template-columns: 2.2fr 1fr;
-            gap: 4rem;
+            gap: 5rem;
             align-items: start;
         }
         
         .detail-story {
             font-size: 1.15rem;
             line-height: 2;
-            color: #b0b3b6;
+            color: #4a4745;
         }
         
         .detail-story p {
@@ -85,9 +86,11 @@
         .detail-section-title {
             font-family: var(--font-display);
             font-size: 2.5rem;
-            color: var(--white);
-            margin-bottom: 1.5rem;
+            color: var(--near-black);
+            margin-bottom: 1.8rem;
             font-weight: 400;
+            border-bottom: 1px solid rgba(200, 169, 110, 0.15);
+            padding-bottom: 1rem;
         }
         
         .detail-section-title em {
@@ -97,13 +100,13 @@
         }
         
         .detail-sidebar-card {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--white);
             border: 1px solid rgba(200, 169, 110, 0.15);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 2.5rem;
-            backdrop-filter: blur(10px);
             position: sticky;
             top: 120px;
+            box-shadow: 0 15px 40px rgba(29, 27, 26, 0.04);
         }
         
         .sidebar-title {
@@ -111,9 +114,9 @@
             font-size: 1rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: var(--accent);
+            color: var(--near-black);
             margin-bottom: 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(200, 169, 110, 0.1);
             padding-bottom: 1rem;
         }
         
@@ -121,7 +124,7 @@
             margin-bottom: 1.5rem;
             display: flex;
             align-items: flex-start;
-            gap: 1rem;
+            gap: 1.2rem;
             font-size: 1.05rem;
         }
         
@@ -133,14 +136,15 @@
         
         .sidebar-info-label {
             font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.4);
+            color: var(--mid-gray);
             text-transform: uppercase;
             letter-spacing: 0.1em;
             margin-bottom: 0.3rem;
+            font-weight: 500;
         }
         
         .sidebar-info-value {
-            color: var(--white);
+            color: var(--near-black);
             font-weight: 400;
         }
         
@@ -151,7 +155,7 @@
             gap: 0.8rem;
             width: 100%;
             background: var(--accent);
-            color: var(--black);
+            color: var(--white);
             padding: 1.2rem;
             border-radius: 8px;
             text-decoration: none;
@@ -167,10 +171,10 @@
         }
         
         .btn-booking:hover {
-            background: var(--white);
-            color: var(--black);
+            background: var(--near-black);
+            color: var(--white);
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 30px rgba(26, 24, 22, 0.2);
         }
         
         /* Premium Gallery */
@@ -182,7 +186,7 @@
         
         .gallery-header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 3.5rem;
         }
         
         .gallery-grid {
@@ -194,21 +198,22 @@
         .gallery-img-wrapper {
             position: relative;
             overflow: hidden;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: transform 0.4s ease;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(29, 27, 26, 0.06);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
             cursor: pointer;
         }
         
         .gallery-img-wrapper:hover {
             transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(29, 27, 26, 0.12);
         }
         
         .gallery-img-wrapper img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.8s ease;
+            transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
         
         .gallery-img-wrapper:hover img {
@@ -226,7 +231,7 @@
         }
         .gallery-grid > div:nth-child(3n+3) {
             grid-column: span 12;
-            height: 500px;
+            height: 550px;
         }
         
         @media (max-width: 992px) {
@@ -251,8 +256,7 @@
     <nav id="mainNav">
         <div class="nav-logo-wrapper">
             <a href="{{ url('/') }}" class="nav-logo">
-                <img src="{{ asset('foto.img/logo_dioreal.png') }}" alt="Logo">
-                <span class="logo-text">DIOREAL.</span>
+                <span class="logo-text">DIOREAL</span>
             </a>
         </div>
         <ul class="nav-links">

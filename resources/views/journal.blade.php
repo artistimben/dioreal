@@ -19,8 +19,7 @@
     <nav id="mainNav">
         <div class="nav-logo-wrapper">
             <a href="index.html" class="nav-logo">
-                <img src="{{ asset('foto.img/logo_dioreal.png') }}" alt="Logo">
-                <span class="logo-text">DIOREAL.</span>
+                <span class="logo-text">DIOREAL</span>
             </a>
         </div>
         <ul class="nav-links">

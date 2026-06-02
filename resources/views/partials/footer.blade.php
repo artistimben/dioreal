@@ -1,7 +1,7 @@
 <footer id="iletisim">
     <div class="footer-top">
         <div class="footer-brand">
-            <div class="footer-logo">DIOREAL.</div>
+            <div class="footer-logo">DIOREAL</div>
             <p class="footer-p" data-i18n="footer_p">Seçkin destinasyonları ve premium markaları doğru kitleyle buluşturan medya platformu.</p>
             <a href="https://wa.me/{{ $settings['whatsapp'] ?? '905320000000' }}" class="whatsapp-cta">
                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
