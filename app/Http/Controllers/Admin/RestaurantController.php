@@ -22,13 +22,14 @@ class RestaurantController extends Controller
 
     public function index()
     {
-        $restaurants = Restaurant::latest()->get();
+        $restaurants = Restaurant::orderBy('order')->orderBy('id', 'desc')->get();
         return view('admin.restaurants.index', compact('restaurants'));
     }
 
     public function create()
     {
-        return view('admin.restaurants.create');
+        $destinations = \App\Models\Destination::all();
+        return view('admin.restaurants.create', compact('destinations'));
     }
 
     public function store(Request $request)
@@ -45,15 +46,27 @@ class RestaurantController extends Controller
             'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
             'gallery_files.*' => 'nullable|image|max:51200',
+            'destination_id' => 'nullable|exists:destinations,id',
+            'order' => 'nullable|integer',
+            'is_archived' => 'nullable',
+            'video_file' => 'nullable|file|mimes:mp4,mov,ogg,qt|max:204800',
+            'video_url' => 'nullable|string',
         ]);
 
-        $data = $request->only(['name', 'tag', 'desc', 'long_desc']);
+        $data = $request->only(['name', 'tag', 'desc', 'long_desc', 'destination_id', 'order', 'video_url']);
+        $data['order'] = $data['order'] ?? 0;
+        $data['is_archived'] = $request->has('is_archived') ? 1 : 0;
 
         // Handle cover image
         if ($request->hasFile('img_file')) {
             $data['img'] = $this->handleFileUpload($request->file('img_file'));
         } else {
             $data['img'] = $request->input('img_url') ?? 'foto.img/rest_hero.jpg';
+        }
+
+        // Handle video upload
+        if ($request->hasFile('video_file')) {
+            $data['video_file'] = $this->handleFileUpload($request->file('video_file'), 'uploads/videos');
         }
 
         // Handle gallery images
@@ -72,7 +85,8 @@ class RestaurantController extends Controller
 
     public function edit(Restaurant $restaurant)
     {
-        return view('admin.restaurants.edit', compact('restaurant'));
+        $destinations = \App\Models\Destination::all();
+        return view('admin.restaurants.edit', compact('restaurant', 'destinations'));
     }
 
     public function update(Request $request, Restaurant $restaurant)
@@ -89,19 +103,38 @@ class RestaurantController extends Controller
             'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
             'gallery_files.*' => 'nullable|image|max:51200',
+            'destination_id' => 'nullable|exists:destinations,id',
+            'order' => 'nullable|integer',
+            'is_archived' => 'nullable',
+            'video_file' => 'nullable|file|mimes:mp4,mov,ogg,qt|max:204800',
+            'video_url' => 'nullable|string',
         ]);
 
-        $data = $request->only(['name', 'tag', 'desc', 'long_desc']);
+        $data = $request->only(['name', 'tag', 'desc', 'long_desc', 'destination_id', 'order', 'video_url']);
+        $data['order'] = $data['order'] ?? 0;
+        $data['is_archived'] = $request->has('is_archived') ? 1 : 0;
 
         // Handle cover image
         if ($request->hasFile('img_file')) {
             $data['img'] = $this->handleFileUpload($request->file('img_file'));
+        } elseif ($request->filled('cover_image')) {
+            $data['img'] = $request->input('cover_image');
         } elseif ($request->filled('img_url')) {
             $data['img'] = $request->input('img_url');
         }
 
-        // Handle gallery
-        $gallery = $restaurant->gallery ?? [];
+        // Handle video upload
+        if ($request->hasFile('video_file')) {
+            $data['video_file'] = $this->handleFileUpload($request->file('video_file'), 'uploads/videos');
+        }
+
+        // Handle gallery reordering
+        $gallery = [];
+        if ($request->filled('gallery_order')) {
+            $gallery = json_decode($request->input('gallery_order'), true) ?? [];
+        } else {
+            $gallery = $restaurant->gallery ?? [];
+        }
 
         // Handle removals
         if ($request->has('remove_gallery')) {

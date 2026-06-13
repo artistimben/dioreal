@@ -36,6 +36,7 @@ Route::get('/journal.html', [PageController::class, 'journal']);
 Route::get('/otel/{id}', [PageController::class, 'otelDetay'])->name('otel.detay');
 Route::get('/restoran/{id}', [PageController::class, 'restoranDetay'])->name('restoran.detay');
 Route::get('/journal/{id}', [PageController::class, 'journalDetay'])->name('journal.detay');
+Route::get('/destinasyon/{id}', [PageController::class, 'destinasyonDetay'])->name('destinasyon.detay');
 
 // Authentication Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

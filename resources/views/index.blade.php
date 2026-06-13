@@ -193,7 +193,7 @@
                 <div class="marquee-track">
                     <div class="marquee-content">
                         @foreach($destinations['turkiye'] as $dest)
-                            <div class="dest-card-h">
+                            <a href="{{ route('destinasyon.detay', $dest->id) }}" class="dest-card-h" style="display: block; text-decoration: none; color: inherit;">
                                 <div class="dest-img-container">
                                     <div class="dest-img" style="background-image:url('{{ asset($dest->img) }}'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
                                 </div>
@@ -207,12 +207,12 @@
                                         <span class="lang-en-text" style="display:none;">{{ $dest->name['en'] ?? '' }}</span>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         @endforeach
                     </div>
                     <div class="marquee-content" aria-hidden="true">
                         @foreach($destinations['turkiye'] as $dest)
-                            <div class="dest-card-h">
+                            <a href="{{ route('destinasyon.detay', $dest->id) }}" class="dest-card-h" style="display: block; text-decoration: none; color: inherit;">
                                 <div class="dest-img-container">
                                     <div class="dest-img" style="background-image:url('{{ asset($dest->img) }}'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
                                 </div>
@@ -226,7 +226,7 @@
                                         <span class="lang-en-text" style="display:none;">{{ $dest->name['en'] ?? '' }}</span>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         @endforeach
                     </div>
                 </div>
@@ -266,7 +266,7 @@
                         <div class="marquee-track">
                             <div class="marquee-content">
                                 @foreach($destinations[$type] as $dest)
-                                    <div class="dest-card-h">
+                                    <a href="{{ route('destinasyon.detay', $dest->id) }}" class="dest-card-h" style="display: block; text-decoration: none; color: inherit;">
                                         <div class="dest-img-container">
                                             <div class="dest-img" style="background-image:url('{{ asset($dest->img) }}'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
                                         </div>
@@ -280,12 +280,12 @@
                                                 <span class="lang-en-text" style="display:none;">{{ $dest->name['en'] ?? '' }}</span>
                                             </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 @endforeach
                             </div>
                             <div class="marquee-content" aria-hidden="true">
                                 @foreach($destinations[$type] as $dest)
-                                    <div class="dest-card-h">
+                                    <a href="{{ route('destinasyon.detay', $dest->id) }}" class="dest-card-h" style="display: block; text-decoration: none; color: inherit;">
                                         <div class="dest-img-container">
                                             <div class="dest-img" style="background-image:url('{{ asset($dest->img) }}'); position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);"></div>
                                         </div>
@@ -299,7 +299,7 @@
                                                 <span class="lang-en-text" style="display:none;">{{ $dest->name['en'] ?? '' }}</span>
                                             </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 @endforeach
                             </div>
                         </div>

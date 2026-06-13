@@ -25,7 +25,7 @@ class PageController extends Controller
 
     public function oteller()
     {
-        $oteller = Hotel::all();
+        $oteller = Hotel::where('is_archived', 0)->orderBy('order')->orderBy('id', 'desc')->get();
         return view("oteller", compact("oteller"));
     }
 
@@ -37,7 +37,7 @@ class PageController extends Controller
 
     public function restoranlar()
     {
-        $restoranlar = Restaurant::all();
+        $restoranlar = Restaurant::where('is_archived', 0)->orderBy('order')->orderBy('id', 'desc')->get();
         return view("restoranlar", compact("restoranlar"));
     }
 
@@ -79,5 +79,28 @@ class PageController extends Controller
         // Get related/recent articles for sidebar (excluding current)
         $related = \App\Models\Journal::where('id', '!=', $id)->latest()->take(4)->get();
         return view("journal-detay", compact("journal", "related"));
+    }
+
+    public function destinasyonDetay($id)
+    {
+        $destination = \App\Models\Destination::findOrFail($id);
+        
+        $hotels = Hotel::where('destination_id', $id)
+            ->where('is_archived', 0)
+            ->orderBy('order')
+            ->orderBy('id', 'desc')
+            ->get();
+            
+        $restaurants = Restaurant::where('destination_id', $id)
+            ->where('is_archived', 0)
+            ->orderBy('order')
+            ->orderBy('id', 'desc')
+            ->get();
+            
+        $journals = Journal::where('destination_id', $id)
+            ->latest()
+            ->get();
+            
+        return view("destinasyon-detay", compact("destination", "hotels", "restaurants", "journals"));
     }
 }

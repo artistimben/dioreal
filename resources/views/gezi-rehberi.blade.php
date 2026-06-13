@@ -62,6 +62,35 @@
         </div>
     </div>
 
+    <style>
+        .card-desc-container {
+            max-height: 4.8em; /* Roughly 3 lines of text */
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            position: relative;
+        }
+        .card-desc-container.expanded {
+            max-height: 1000px;
+        }
+        .read-more-btn {
+            background: none;
+            border: none;
+            color: var(--accent, #c8a96e);
+            font-family: var(--font-body, 'Jost', sans-serif);
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            padding: 0;
+            text-decoration: underline;
+            transition: color 0.2s;
+        }
+        .read-more-btn:hover {
+            color: var(--near-black, #1a1816);
+        }
+    </style>
     <section class="content-section">
         <div style="text-align:center;max-width:700px;margin:0 auto 5rem;" class="reveal">
             <span class="content-eyebrow" style="display:block;" data-i18n="guide_exp_eye">Uzman Tavsiyeleri</span>
@@ -79,8 +108,16 @@
                         <h3 class="card-title lang-text-tr">{{ $g->title["tr"] ?? "" }}</h3>
                         <h3 class="card-title lang-text-en">{{ $g->title["en"] ?? "" }}</h3>
                         
-                        <p class="card-desc lang-text-tr">{{ $g->desc["tr"] ?? "" }}</p>
-                        <p class="card-desc lang-text-en">{{ $g->desc["en"] ?? "" }}</p>
+                        <div class="card-desc-container">
+                            <p class="card-desc lang-text-tr">{{ $g->desc["tr"] ?? "" }}</p>
+                            <p class="card-desc lang-text-en">{{ $g->desc["en"] ?? "" }}</p>
+                        </div>
+                        @if(mb_strlen($g->desc["tr"] ?? "") > 120 || mb_strlen($g->desc["en"] ?? "") > 120)
+                            <button class="read-more-btn" onclick="toggleReadMore(this)">
+                                <span class="lang-text-tr">Devamını Oku</span>
+                                <span class="lang-text-en">Read More</span>
+                            </button>
+                        @endif
                     </div>
                 </div>
             @endforeach
@@ -88,6 +125,20 @@
     </section>
 
     @include('partials.footer')
+    <script>
+        function toggleReadMore(button) {
+            const container = button.previousElementSibling;
+            if (container.classList.contains('expanded')) {
+                container.classList.remove('expanded');
+                button.querySelector('.lang-text-tr').textContent = 'Devamını Oku';
+                button.querySelector('.lang-text-en').textContent = 'Read More';
+            } else {
+                container.classList.add('expanded');
+                button.querySelector('.lang-text-tr').textContent = 'Kapat';
+                button.querySelector('.lang-text-en').textContent = 'Read Less';
+            }
+        }
+    </script>
     <script src="js/i18n.js?v={{ time() }}"></script>
     <script src="js/common.js?v={{ time() }}"></script>
     <script src="js/nav.js?v={{ time() }}"></script>

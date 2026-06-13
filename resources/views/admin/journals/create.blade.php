@@ -80,6 +80,18 @@
                 <!-- Date & Meta -->
                 <div>
                     <div class="form-group">
+                        <label class="form-label" for="destination_id">İlişkili Ülke / Destinasyon</label>
+                        <select name="destination_id" id="destination_id" class="form-control">
+                            <option value="">-- Ülke Seçin (İsteğe Bağlı) --</option>
+                            @foreach($destinations as $dest)
+                                <option value="{{ $dest->id }}" {{ old('destination_id') == $dest->id ? 'selected' : '' }}>
+                                    {{ $dest->name['tr'] ?? '' }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label class="form-label" for="date">Yayın Tarihi Metni</label>
                         <input type="text" name="date" id="date" class="form-control" placeholder="Örn: MAYIS 2024 veya 24.05.2026" value="{{ old('date') }}" required>
                         <small style="color: var(--text-muted); display:block; margin-top:0.25rem;">Sitede görünecek tarih etiketini manuel girin.</small>

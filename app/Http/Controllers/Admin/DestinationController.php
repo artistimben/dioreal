@@ -45,13 +45,18 @@ class DestinationController extends Controller
             'name.en' => 'required|string|max:255',
             'region.tr' => 'required|string|max:255',
             'region.en' => 'required|string|max:255',
+            'desc.tr' => 'nullable|string',
+            'desc.en' => 'nullable|string',
             'type' => 'required|string|in:turkiye,yurtdisi_popular,yurtdisi_traveller,yurtdisi_month,yurtdisi_spotlight',
             'order' => 'nullable|integer',
             'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
+            'gallery_files.*' => 'nullable|image|max:51200',
+            'video_file' => 'nullable|file|mimes:mp4,mov,ogg,qt|max:204800',
+            'video_url' => 'nullable|string',
         ]);
 
-        $data = $request->only(['name', 'region', 'type', 'order']);
+        $data = $request->only(['name', 'region', 'desc', 'type', 'order', 'video_url']);
         $data['order'] = $data['order'] ?? 0;
 
         // Handle cover image
@@ -60,6 +65,20 @@ class DestinationController extends Controller
         } else {
             $data['img'] = $request->input('img_url') ?? 'foto.img/istanbul.jpg';
         }
+
+        // Handle video upload
+        if ($request->hasFile('video_file')) {
+            $data['video_file'] = $this->handleFileUpload($request->file('video_file'), 'uploads/videos');
+        }
+
+        // Handle gallery images
+        $gallery = [];
+        if ($request->hasFile('gallery_files')) {
+            foreach ($request->file('gallery_files') as $file) {
+                $gallery[] = $this->handleFileUpload($file);
+            }
+        }
+        $data['gallery'] = $gallery;
 
         Destination::create($data);
 
@@ -85,21 +104,57 @@ class DestinationController extends Controller
             'name.en' => 'required|string|max:255',
             'region.tr' => 'required|string|max:255',
             'region.en' => 'required|string|max:255',
+            'desc.tr' => 'nullable|string',
+            'desc.en' => 'nullable|string',
             'type' => 'required|string|in:turkiye,yurtdisi_popular,yurtdisi_traveller,yurtdisi_month,yurtdisi_spotlight',
             'order' => 'nullable|integer',
             'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
+            'gallery_files.*' => 'nullable|image|max:51200',
+            'video_file' => 'nullable|file|mimes:mp4,mov,ogg,qt|max:204800',
+            'video_url' => 'nullable|string',
         ]);
 
-        $data = $request->only(['name', 'region', 'type', 'order']);
+        $data = $request->only(['name', 'region', 'desc', 'type', 'order', 'video_url']);
         $data['order'] = $data['order'] ?? 0;
 
         // Handle cover image
         if ($request->hasFile('img_file')) {
             $data['img'] = $this->handleFileUpload($request->file('img_file'));
+        } elseif ($request->filled('cover_image')) {
+            $data['img'] = $request->input('cover_image');
         } elseif ($request->filled('img_url')) {
             $data['img'] = $request->input('img_url');
         }
+
+        // Handle video upload
+        if ($request->hasFile('video_file')) {
+            $data['video_file'] = $this->handleFileUpload($request->file('video_file'), 'uploads/videos');
+        }
+
+        // Handle gallery reordering
+        $gallery = [];
+        if ($request->filled('gallery_order')) {
+            $gallery = json_decode($request->input('gallery_order'), true) ?? [];
+        } else {
+            $gallery = $destination->gallery ?? [];
+        }
+
+        // Handle removals
+        if ($request->has('remove_gallery')) {
+            $removals = $request->input('remove_gallery');
+            $gallery = array_values(array_filter($gallery, function($img) use ($removals) {
+                return !in_array($img, $removals);
+            }));
+        }
+
+        // Handle new additions
+        if ($request->hasFile('gallery_files')) {
+            foreach ($request->file('gallery_files') as $file) {
+                $gallery[] = $this->handleFileUpload($file);
+            }
+        }
+        $data['gallery'] = $gallery;
 
         $destination->update($data);
 

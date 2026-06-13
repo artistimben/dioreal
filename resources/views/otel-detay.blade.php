@@ -220,28 +220,27 @@
             transform: scale(1.05);
         }
         
-        /* Custom asymmetrical grid */
-        .gallery-grid > div:nth-child(3n+1) {
-            grid-column: span 8;
-            height: 450px;
+        /* Square grid layout */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
         }
-        .gallery-grid > div:nth-child(3n+2) {
-            grid-column: span 4;
-            height: 450px;
-        }
-        .gallery-grid > div:nth-child(3n+3) {
-            grid-column: span 12;
-            height: 550px;
+        
+        .gallery-img-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            aspect-ratio: 1/1;
+            box-shadow: 0 15px 35px rgba(29, 27, 26, 0.06);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+            cursor: pointer;
         }
         
         @media (max-width: 992px) {
             .detail-grid {
                 grid-template-columns: 1fr;
                 gap: 3rem;
-            }
-            .gallery-grid > div:nth-child(n) {
-                grid-column: span 12;
-                height: 350px;
             }
             .detail-sidebar-card {
                 position: static;
@@ -362,6 +361,28 @@
 
         </div>
     </section>
+
+    <!-- Tanıtım Videosu Section -->
+    @if(!empty($otel->video_file) || !empty($otel->video_url))
+        <section class="video-section reveal" style="max-width: 1200px; margin: 4rem auto; padding: 0 2rem;">
+            <div class="gallery-header" style="text-align: center; margin-bottom: 3.5rem;">
+                <h2 class="detail-section-title">Tanıtım <em>Videosu</em></h2>
+            </div>
+            <div class="video-container" style="position: relative; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.15); background: #000; aspect-ratio: 16/9; max-width: 900px; margin: 0 auto;">
+                @if(!empty($otel->video_file))
+                    <video src="{{ asset($otel->video_file) }}" controls style="width: 100%; height: 100%; object-fit: cover;"></video>
+                @elseif(!empty($otel->video_url))
+                    @php
+                        $embedUrl = $otel->video_url;
+                        if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/', $otel->video_url, $matches)) {
+                            $embedUrl = 'https://www.youtube.com/embed/' . $matches[1];
+                        }
+                    @endphp
+                    <iframe src="{{ $embedUrl }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position: absolute; top:0; left:0; width:100%; height:100%; border:none;"></iframe>
+                @endif
+            </div>
+        </section>
+    @endif
 
     <!-- Asymmetrical Gallery Grid -->
     <section class="gallery-section reveal">

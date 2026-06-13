@@ -9,7 +9,8 @@ class Guide extends Model
     protected $casts = [
         "title" => "array",
         "tag" => "array",
-        "desc" => "array"
+        "desc" => "array",
+        "gallery" => "array"
     ];
 
     protected $guarded = [];

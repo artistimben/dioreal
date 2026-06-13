@@ -39,6 +39,11 @@
                     <label class="form-label" for="region_tr">Bölge / Alt Başlık (TR)</label>
                     <input type="text" name="region[tr]" id="region_tr" class="form-control" placeholder="Örn: Nevşehir" value="{{ old('region.tr', $destination->region['tr'] ?? '') }}" required>
                 </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="desc_tr">Açıklama / Tanıtım Yazısı (TR)</label>
+                    <textarea name="desc[tr]" id="desc_tr" class="form-control" placeholder="Ülke detay sayfasında görünecek açıklama..." style="min-height: 120px;">{{ old('desc.tr', $destination->desc['tr'] ?? '') }}</textarea>
+                </div>
             </div>
 
             <!-- English Translation Pane -->
@@ -51,6 +56,11 @@
                 <div class="form-group">
                     <label class="form-label" for="region_en">Region / Subtitle (EN)</label>
                     <input type="text" name="region[en]" id="region_en" class="form-control" placeholder="e.g. Nevsehir" value="{{ old('region.en', $destination->region['en'] ?? '') }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="desc_en">Description / Intro (EN)</label>
+                    <textarea name="desc[en]" id="desc_en" class="form-control" placeholder="Description to be displayed on country details page..." style="min-height: 120px;">{{ old('desc.en', $destination->desc['en'] ?? '') }}</textarea>
                 </div>
             </div>
 
@@ -74,28 +84,92 @@
                         <label class="form-label" for="order">Sıra Numarası (Küçük olan önce görünür)</label>
                         <input type="number" name="order" id="order" class="form-control" placeholder="Örn: 0" value="{{ old('order', $destination->order) }}">
                     </div>
-                </div>
 
-                <!-- Cover Image -->
-                <div>
-                    <label class="form-label">Görsel</label>
-                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                        <input type="file" name="img_file" id="img_file" accept="image/*" style="display:none;" onchange="previewImage(this, 'img_preview')">
-                        <button type="button" class="btn btn-outline" onclick="document.getElementById('img_file').click()">
-                            <i class="fas fa-image"></i> Görsel Dosyası Seç
-                        </button>
-                        
-                        <div class="image-preview-box" id="img_preview" style="height: 150px; border: 1px dashed var(--border-color); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: var(--radius-sm); background: rgba(15,23,42,0.3);">
-                            @if($destination->img)
-                                <img src="{{ asset($destination->img) }}" alt="" style="max-width: 100%; max-height: 100%; object-fit: contain;">
-                            @else
-                                <span class="image-preview-text" style="color: var(--text-muted);">Önizleme Yok</span>
+                    <div class="form-group" style="margin-top: 1.5rem;">
+                        <label class="form-label">Galeriye Görsel Ekle (Çoklu)</label>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <input type="file" name="gallery_files[]" id="gallery_files" accept="image/*" multiple style="display:none;" onchange="previewMultipleImages(this, 'gallery_preview')">
+                            <button type="button" class="btn btn-outline" onclick="document.getElementById('gallery_files').click()">
+                                <i class="fas fa-plus"></i> Galeriye Görsel Seç
+                            </button>
+                            
+                            <div id="gallery_preview" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 0.5rem; margin-top: 0.5rem; min-height: 50px; border: 1px dashed var(--border-color); padding: 0.5rem; border-radius: var(--radius-sm); background: rgba(15,23,42,0.3);">
+                                <div style="grid-column: 1/-1; display:flex; align-items:center; justify-content:center; color: var(--text-muted); font-size: 0.8rem;" id="gallery_preview_text">
+                                    Yeni Eklenen Görsel Yok
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Existing Gallery Management -->
+                    <div style="margin-top: 1.5rem;">
+                        <label class="form-label">Mevcut Galeri Görselleri (Sürükleyip sıralayabilir, kapak seçebilir ve silebilirsiniz)</label>
+                        <div id="gallery-sortable-container">
+                            @if($destination->gallery && count($destination->gallery) > 0)
+                                @foreach($destination->gallery as $g)
+                                    <div class="gallery-item {{ $g == $destination->img ? 'is-cover' : '' }}" data-path="{{ $g }}">
+                                        <img src="{{ str_starts_with($g, 'data:') ? $g : asset($g) }}" alt="">
+                                        <span class="cover-badge {{ $g == $destination->img ? '' : 'd-none' }}">KAPAK</span>
+                                        <div class="item-controls">
+                                            <button type="button" class="control-btn make-cover-btn" title="Kapak Yap"><i class="fas fa-image"></i> Kapak Yap</button>
+                                            <button type="button" class="control-btn remove-gallery-item-btn" title="Kaldır"><i class="fas fa-trash-alt"></i></button>
+                                        </div>
+                                    </div>
+                                @endforeach
                             @endif
                         </div>
+                        <input type="hidden" name="cover_image" id="cover_image" value="{{ $destination->img }}">
+                    </div>
+                </div>
 
-                        <div style="margin-top: 1rem;">
-                            <label class="form-label" for="img_url">Veya Hazır Görsel Yolu (Manuel)</label>
-                            <input type="text" name="img_url" id="img_url" class="form-control" placeholder="Örn: foto.img/istanbul.jpg" value="{{ old('img_url', $destination->img) }}">
+                <!-- Cover Image & Videos -->
+                <div>
+                    <div>
+                        <label class="form-label">Görsel (Kapak)</label>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <input type="file" name="img_file" id="img_file" accept="image/*" style="display:none;" onchange="previewImage(this, 'img_preview')">
+                            <button type="button" class="btn btn-outline" onclick="document.getElementById('img_file').click()">
+                                <i class="fas fa-sync-alt"></i> Farklı Bir Görsel Seç
+                            </button>
+                            
+                            <div style="display: flex; gap: 1rem; align-items: center; margin-top: 0.5rem;">
+                                <div>
+                                    <span style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Mevcut Görsel:</span>
+                                    <div class="image-preview-box" style="height: 120px;">
+                                        @if($destination->img)
+                                            <img src="{{ asset($destination->img) }}" alt="" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                                        @else
+                                            <span style="color: var(--text-muted);">Önizleme Yok</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <i class="fas fa-arrow-right" style="color: var(--text-muted);"></i>
+                                <div>
+                                    <span style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Yeni Görsel Önizleme:</span>
+                                    <div class="image-preview-box" id="img_preview" style="height: 120px;">
+                                        <span class="image-preview-text">Değişiklik Yok</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 1rem;">
+                                <label class="form-label" for="img_url">Veya Hazır Görsel Yolu (Manuel)</label>
+                                <input type="text" name="img_url" id="img_url" class="form-control" placeholder="Örn: foto.img/istanbul.jpg" value="{{ old('img_url', $destination->img) }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <label class="form-label">Video Değiştir (MP4 / MOV)</label>
+                            <input type="file" name="video_file" id="video_file" accept="video/*" class="form-control">
+                            @if($destination->video_file)
+                                <span style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Mevcut: {{ $destination->video_file }}</span>
+                            @endif
+                        </div>
+                        <div>
+                            <label class="form-label" for="video_url">YouTube Video Linki</label>
+                            <input type="text" name="video_url" id="video_url" class="form-control" placeholder="Örn: https://www.youtube.com/watch?v=..." value="{{ old('video_url', $destination->video_url) }}">
                         </div>
                     </div>
                 </div>
@@ -132,9 +206,41 @@
                 @if($destination->img)
                     previewBox.innerHTML = '<img src="{{ asset($destination->img) }}" alt="" style="max-width: 100%; max-height: 100%; object-fit: contain;">';
                 @else
-                    previewBox.innerHTML = '<span class="image-preview-text" style="color: var(--text-muted);">Önizleme Yok</span>';
+                    previewBox.innerHTML = '<span class="image-preview-text" style="color: var(--text-muted);">Değişiklik Yok</span>';
                 @endif
             }
         }
+
+        function previewMultipleImages(input, previewGridId) {
+            const previewGrid = document.getElementById(previewGridId);
+            previewGrid.innerHTML = '';
+            
+            if (input.files && input.files.length > 0) {
+                for (let i = 0; i < input.files.length; i++) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const div = document.createElement('div');
+                        div.style.width = '100%';
+                        div.style.aspectRatio = '1';
+                        div.style.borderRadius = '4px';
+                        div.style.overflow = 'hidden';
+                        div.style.border = '1px solid var(--border-color)';
+                        
+                        const img = document.createElement('img');
+                        img.setAttribute('src', e.target.result);
+                        img.style.width = '100%';
+                        img.style.height = '100%';
+                        img.style.objectFit = 'cover';
+                        
+                        div.appendChild(img);
+                        previewGrid.appendChild(div);
+                    }
+                    reader.readAsDataURL(input.files[i]);
+                }
+            } else {
+                previewGrid.innerHTML = '<div style="grid-column: 1/-1; display:flex; align-items:center; justify-content:center; color: var(--text-muted); font-size: 0.8rem;">Yeni Eklenen Görsel Yok</div>';
+            }
+        }
     </script>
+    <script src="{{ asset('js/admin-drag-drop.js') }}"></script>
 @endsection

@@ -28,7 +28,8 @@ class JournalController extends Controller
 
     public function create()
     {
-        return view('admin.journals.create');
+        $destinations = \App\Models\Destination::all();
+        return view('admin.journals.create', compact('destinations'));
     }
 
     public function store(Request $request)
@@ -47,9 +48,10 @@ class JournalController extends Controller
             'is_featured' => 'nullable|boolean',
             'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
+            'destination_id' => 'nullable|exists:destinations,id',
         ]);
 
-        $data = $request->only(['title', 'tag', 'desc', 'content', 'date', 'read_time']);
+        $data = $request->only(['title', 'tag', 'desc', 'content', 'date', 'read_time', 'destination_id']);
         $data['is_featured'] = $request->boolean('is_featured');
 
         // Handle image
@@ -66,7 +68,8 @@ class JournalController extends Controller
 
     public function edit(Journal $journal)
     {
-        return view('admin.journals.edit', compact('journal'));
+        $destinations = \App\Models\Destination::all();
+        return view('admin.journals.edit', compact('journal', 'destinations'));
     }
 
     public function update(Request $request, Journal $journal)
@@ -85,9 +88,10 @@ class JournalController extends Controller
             'is_featured' => 'nullable|boolean',
             'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
+            'destination_id' => 'nullable|exists:destinations,id',
         ]);
 
-        $data = $request->only(['title', 'tag', 'desc', 'content', 'date', 'read_time']);
+        $data = $request->only(['title', 'tag', 'desc', 'content', 'date', 'read_time', 'destination_id']);
         $data['is_featured'] = $request->boolean('is_featured');
 
         // Handle image

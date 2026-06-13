@@ -115,6 +115,42 @@
                 </div>
             </div>
 
+            <!-- Settings, Association & Videos -->
+            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 2rem 0;">
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                <div>
+                    <label class="form-label" for="destination_id">Ülke / Destinasyon</label>
+                    <select name="destination_id" id="destination_id" class="form-control">
+                        <option value="">-- Ülke Seçin --</option>
+                        @foreach($destinations as $dest)
+                            <option value="{{ $dest->id }}" {{ old('destination_id') == $dest->id ? 'selected' : '' }}>
+                                {{ $dest->name['tr'] ?? '' }} ({{ $dest->region['tr'] ?? '' }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label" for="order">Sıralama (Öncelik)</label>
+                    <input type="number" name="order" id="order" class="form-control" placeholder="0" value="{{ old('order', 0) }}">
+                </div>
+                <div style="display: flex; align-items: center; margin-top: 2rem; gap: 0.5rem;">
+                    <input type="checkbox" name="is_archived" id="is_archived" value="1" {{ old('is_archived') ? 'checked' : '' }}>
+                    <label class="form-label" for="is_archived" style="margin-bottom:0; cursor:pointer;">Bu Restoranı Arşivle (Yayından Kaldır)</label>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                <div>
+                    <label class="form-label">Video Yükle (MP4 / MOV)</label>
+                    <input type="file" name="video_file" id="video_file" accept="video/*" class="form-control">
+                </div>
+                <div>
+                    <label class="form-label" for="video_url">Veya YouTube Video Linki</label>
+                    <input type="text" name="video_url" id="video_url" class="form-control" placeholder="Örn: https://www.youtube.com/watch?v=..." value="{{ old('video_url') }}">
+                </div>
+            </div>
+
             <!-- Submit Buttons -->
             <div style="display: flex; gap: 1rem; justify-content: flex-end;">
                 <a href="{{ route('admin.restaurants.index') }}" class="btn btn-outline">İptal Et</a>

@@ -22,13 +22,14 @@ class HotelController extends Controller
 
     public function index()
     {
-        $hotels = Hotel::latest()->get();
+        $hotels = Hotel::orderBy('order')->orderBy('id', 'desc')->get();
         return view('admin.hotels.index', compact('hotels'));
     }
 
     public function create()
     {
-        return view('admin.hotels.create');
+        $destinations = \App\Models\Destination::all();
+        return view('admin.hotels.create', compact('destinations'));
     }
 
     public function store(Request $request)
@@ -45,15 +46,27 @@ class HotelController extends Controller
             'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
             'gallery_files.*' => 'nullable|image|max:51200',
+            'destination_id' => 'nullable|exists:destinations,id',
+            'order' => 'nullable|integer',
+            'is_archived' => 'nullable',
+            'video_file' => 'nullable|file|mimes:mp4,mov,ogg,qt|max:204800',
+            'video_url' => 'nullable|string',
         ]);
 
-        $data = $request->only(['name', 'tag', 'desc', 'long_desc']);
+        $data = $request->only(['name', 'tag', 'desc', 'long_desc', 'destination_id', 'order', 'video_url']);
+        $data['order'] = $data['order'] ?? 0;
+        $data['is_archived'] = $request->has('is_archived') ? 1 : 0;
 
         // Handle cover image
         if ($request->hasFile('img_file')) {
             $data['img'] = $this->handleFileUpload($request->file('img_file'));
         } else {
             $data['img'] = $request->input('img_url') ?? 'foto.img/otel_aman.jpg';
+        }
+
+        // Handle video upload
+        if ($request->hasFile('video_file')) {
+            $data['video_file'] = $this->handleFileUpload($request->file('video_file'), 'uploads/videos');
         }
 
         // Handle gallery images
@@ -72,7 +85,8 @@ class HotelController extends Controller
 
     public function edit(Hotel $hotel)
     {
-        return view('admin.hotels.edit', compact('hotel'));
+        $destinations = \App\Models\Destination::all();
+        return view('admin.hotels.edit', compact('hotel', 'destinations'));
     }
 
     public function update(Request $request, Hotel $hotel)
@@ -89,19 +103,38 @@ class HotelController extends Controller
             'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
             'gallery_files.*' => 'nullable|image|max:51200',
+            'destination_id' => 'nullable|exists:destinations,id',
+            'order' => 'nullable|integer',
+            'is_archived' => 'nullable',
+            'video_file' => 'nullable|file|mimes:mp4,mov,ogg,qt|max:204800',
+            'video_url' => 'nullable|string',
         ]);
 
-        $data = $request->only(['name', 'tag', 'desc', 'long_desc']);
+        $data = $request->only(['name', 'tag', 'desc', 'long_desc', 'destination_id', 'order', 'video_url']);
+        $data['order'] = $data['order'] ?? 0;
+        $data['is_archived'] = $request->has('is_archived') ? 1 : 0;
 
         // Handle cover image
         if ($request->hasFile('img_file')) {
             $data['img'] = $this->handleFileUpload($request->file('img_file'));
+        } elseif ($request->filled('cover_image')) {
+            $data['img'] = $request->input('cover_image');
         } elseif ($request->filled('img_url')) {
             $data['img'] = $request->input('img_url');
         }
 
-        // Handle gallery
-        $gallery = $hotel->gallery ?? [];
+        // Handle video upload
+        if ($request->hasFile('video_file')) {
+            $data['video_file'] = $this->handleFileUpload($request->file('video_file'), 'uploads/videos');
+        }
+
+        // Handle gallery reordering
+        $gallery = [];
+        if ($request->filled('gallery_order')) {
+            $gallery = json_decode($request->input('gallery_order'), true) ?? [];
+        } else {
+            $gallery = $hotel->gallery ?? [];
+        }
 
         // Handle removals
         if ($request->has('remove_gallery')) {

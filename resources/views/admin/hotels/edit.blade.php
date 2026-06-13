@@ -126,22 +126,64 @@
                         </div>
 
                         <!-- Existing Gallery Management -->
-                        @if($hotel->gallery && count($hotel->gallery) > 0)
-                            <div style="margin-top: 1.5rem;">
-                                <label class="form-label">Mevcut Galeri Görselleri (Silmek istediklerinizi seçin)</label>
-                                <div class="edit-gallery-grid">
+                        <div style="margin-top: 1.5rem;">
+                            <label class="form-label">Mevcut Galeri Görselleri (Sürükleyip sıralayabilir, kapak seçebilir ve silebilirsiniz)</label>
+                            <div id="gallery-sortable-container">
+                                @if($hotel->gallery && count($hotel->gallery) > 0)
                                     @foreach($hotel->gallery as $g)
-                                        <div class="edit-gallery-item">
+                                        <div class="gallery-item {{ $g == $hotel->img ? 'is-cover' : '' }}" data-path="{{ $g }}">
                                             <img src="{{ str_starts_with($g, 'data:') ? $g : asset($g) }}" alt="">
-                                            <div class="remove-check" title="Kaldır">
-                                                <input type="checkbox" name="remove_gallery[]" value="{{ $g }}">
+                                            <span class="cover-badge {{ $g == $hotel->img ? '' : 'd-none' }}">KAPAK</span>
+                                            <div class="item-controls">
+                                                <button type="button" class="control-btn make-cover-btn" title="Kapak Yap"><i class="fas fa-image"></i> Kapak Yap</button>
+                                                <button type="button" class="control-btn remove-gallery-item-btn" title="Kaldır"><i class="fas fa-trash-alt"></i></button>
                                             </div>
                                         </div>
                                     @endforeach
-                                </div>
+                                @endif
                             </div>
-                        @endif
+                            <input type="hidden" name="cover_image" id="cover_image" value="{{ $hotel->img }}">
+                        </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Settings, Association & Videos -->
+            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 2rem 0;">
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                <div>
+                    <label class="form-label" for="destination_id">Ülke / Destinasyon</label>
+                    <select name="destination_id" id="destination_id" class="form-control">
+                        <option value="">-- Ülke Seçin --</option>
+                        @foreach($destinations as $dest)
+                            <option value="{{ $dest->id }}" {{ old('destination_id', $hotel->destination_id) == $dest->id ? 'selected' : '' }}>
+                                {{ $dest->name['tr'] ?? '' }} ({{ $dest->region['tr'] ?? '' }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label" for="order">Sıralama (Öncelik)</label>
+                    <input type="number" name="order" id="order" class="form-control" placeholder="0" value="{{ old('order', $hotel->order) }}">
+                </div>
+                <div style="display: flex; align-items: center; margin-top: 2rem; gap: 0.5rem;">
+                    <input type="checkbox" name="is_archived" id="is_archived" value="1" {{ old('is_archived', $hotel->is_archived) ? 'checked' : '' }}>
+                    <label class="form-label" for="is_archived" style="margin-bottom:0; cursor:pointer;">Bu Oteli Arşivle (Yayından Kaldır)</label>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                <div>
+                    <label class="form-label">Video Değiştir (MP4 / MOV)</label>
+                    <input type="file" name="video_file" id="video_file" accept="video/*" class="form-control">
+                    @if($hotel->video_file)
+                        <span style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Mevcut: {{ $hotel->video_file }}</span>
+                    @endif
+                </div>
+                <div>
+                    <label class="form-label" for="video_url">YouTube Video Linki</label>
+                    <input type="text" name="video_url" id="video_url" class="form-control" placeholder="Örn: https://www.youtube.com/watch?v=..." value="{{ old('video_url', $hotel->video_url) }}">
                 </div>
             </div>
 
@@ -205,4 +247,5 @@
             }
         }
     </script>
+    <script src="{{ asset('js/admin-drag-drop.js') }}"></script>
 @endsection
