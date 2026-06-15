@@ -52,7 +52,7 @@ class DestinationController extends Controller
             'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
             'gallery_files.*' => 'nullable|image|max:51200',
-            'video_file' => 'nullable|file|mimes:mp4,mov,ogg,qt|max:204800',
+            'video_file' => 'nullable|file|max:204800',
             'video_url' => 'nullable|string',
         ]);
 
@@ -111,7 +111,7 @@ class DestinationController extends Controller
             'img_file' => 'nullable|image|max:51200',
             'img_url' => 'nullable|string',
             'gallery_files.*' => 'nullable|image|max:51200',
-            'video_file' => 'nullable|file|mimes:mp4,mov,ogg,qt|max:204800',
+            'video_file' => 'nullable|file|max:204800',
             'video_url' => 'nullable|string',
         ]);
 

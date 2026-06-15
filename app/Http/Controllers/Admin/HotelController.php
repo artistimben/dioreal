@@ -49,7 +49,7 @@ class HotelController extends Controller
             'destination_id' => 'nullable|exists:destinations,id',
             'order' => 'nullable|integer',
             'is_archived' => 'nullable',
-            'video_file' => 'nullable|file|mimes:mp4,mov,ogg,qt|max:204800',
+            'video_file' => 'nullable|file|max:204800',
             'video_url' => 'nullable|string',
         ]);
 
@@ -106,7 +106,7 @@ class HotelController extends Controller
             'destination_id' => 'nullable|exists:destinations,id',
             'order' => 'nullable|integer',
             'is_archived' => 'nullable',
-            'video_file' => 'nullable|file|mimes:mp4,mov,ogg,qt|max:204800',
+            'video_file' => 'nullable|file|max:204800',
             'video_url' => 'nullable|string',
         ]);
 
