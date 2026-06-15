@@ -215,6 +215,79 @@
                 }
             }
         });
+
+        // ── Drag & Drop File Upload Zone Auto-Decorator ──
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll("input[type='file']").forEach(input => {
+                // Ignore inputs inside sortable gallery items
+                if (input.closest(".gallery-item")) return;
+                
+                // Create a dropzone wrapper
+                const dropzone = document.createElement("div");
+                dropzone.className = "file-dropzone";
+                dropzone.style.marginBottom = "1rem";
+                
+                const isMultiple = input.multiple;
+                const accept = input.accept || "*";
+                let typeText = "resim veya video";
+                let iconClass = "fa-cloud-upload-alt";
+                
+                if (accept.includes("image")) {
+                    typeText = "görsel";
+                    iconClass = "fa-image";
+                } else if (accept.includes("video")) {
+                    typeText = "video";
+                    iconClass = "fa-video";
+                }
+                
+                dropzone.innerHTML = `
+                    <i class="fas ${iconClass} dropzone-icon"></i>
+                    <div class="dropzone-text">
+                        ${isMultiple ? 'Dosyaları' : 'Dosyayı'} buraya sürükleyin veya <span>seçin</span>
+                    </div>
+                `;
+                
+                // Insert dropzone before input, then move input inside it
+                input.parentNode.insertBefore(dropzone, input);
+                dropzone.appendChild(input);
+                
+                // Find and hide old buttons that trigger this input click
+                const allButtons = document.querySelectorAll("button, a.btn");
+                allButtons.forEach(btn => {
+                    const onclickAttr = btn.getAttribute("onclick");
+                    if (onclickAttr && onclickAttr.includes(input.id) && onclickAttr.includes(".click()")) {
+                        btn.style.display = "none";
+                    }
+                });
+                
+                // Click events
+                dropzone.addEventListener("click", function (e) {
+                    if (e.target !== input) {
+                        input.click();
+                    }
+                });
+                
+                // Drag & drop events
+                dropzone.addEventListener("dragover", function (e) {
+                    e.preventDefault();
+                    dropzone.classList.add("dragover");
+                });
+                
+                dropzone.addEventListener("dragleave", function () {
+                    dropzone.classList.remove("dragover");
+                });
+                
+                dropzone.addEventListener("drop", function (e) {
+                    e.preventDefault();
+                    dropzone.classList.remove("dragover");
+                    
+                    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                        input.files = e.dataTransfer.files;
+                        input.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
