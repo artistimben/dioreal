@@ -315,7 +315,23 @@
             @foreach($oteller as $index => $otel)
                 <div class="hotel-row">
                     <div class="hotel-image-col">
-                        <div class="hotel-row-image" style="background-image: url('{{ asset($otel->img) }}');"></div>
+                        @if($otel->show_video_on_cover && (!empty($otel->video_file) || !empty($otel->video_url)))
+                            @if(!empty($otel->video_file))
+                                <video autoplay muted loop playsinline class="hotel-row-image" style="object-fit: cover; width:100%; height:100%;">
+                                    <source src="{{ asset($otel->video_file) }}" type="video/mp4">
+                                </video>
+                            @elseif(!empty($otel->video_url))
+                                @php
+                                    $embedUrl = $otel->video_url;
+                                    if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/', $otel->video_url, $matches)) {
+                                        $embedUrl = 'https://www.youtube.com/embed/' . $matches[1] . '?autoplay=1&mute=1&loop=1&playlist=' . $matches[1] . '&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3';
+                                    }
+                                @endphp
+                                <iframe src="{{ $embedUrl }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none; transform: scale(1.35); position: absolute; inset: 0; border: none;"></iframe>
+                            @endif
+                        @else
+                            <div class="hotel-row-image" style="background-image: url('{{ asset($otel->img) }}');"></div>
+                        @endif
                     </div>
                     <div class="hotel-info-col">
                         <span class="hotel-num">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>

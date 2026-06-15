@@ -134,9 +134,15 @@
                     <label class="form-label" for="order">Sıralama (Öncelik)</label>
                     <input type="number" name="order" id="order" class="form-control" placeholder="0" value="{{ old('order', 0) }}">
                 </div>
-                <div style="display: flex; align-items: center; margin-top: 2rem; gap: 0.5rem;">
-                    <input type="checkbox" name="is_archived" id="is_archived" value="1" {{ old('is_archived') ? 'checked' : '' }}>
-                    <label class="form-label" for="is_archived" style="margin-bottom:0; cursor:pointer;">Bu Oteli Arşivle (Yayından Kaldır)</label>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" name="is_archived" id="is_archived" value="1" {{ old('is_archived') ? 'checked' : '' }}>
+                        <label class="form-label" for="is_archived" style="margin-bottom:0; cursor:pointer;">Bu Oteli Arşivle (Yayından Kaldır)</label>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" name="show_video_on_cover" id="show_video_on_cover" value="1" {{ old('show_video_on_cover') ? 'checked' : '' }}>
+                        <label class="form-label" for="show_video_on_cover" style="margin-bottom:0; cursor:pointer;">Kapakta Video Göster (Kapak resmi yerine video oynatır)</label>
+                    </div>
                 </div>
             </div>
 

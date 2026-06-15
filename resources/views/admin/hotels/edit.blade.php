@@ -167,18 +167,30 @@
                     <label class="form-label" for="order">Sıralama (Öncelik)</label>
                     <input type="number" name="order" id="order" class="form-control" placeholder="0" value="{{ old('order', $hotel->order) }}">
                 </div>
-                <div style="display: flex; align-items: center; margin-top: 2rem; gap: 0.5rem;">
-                    <input type="checkbox" name="is_archived" id="is_archived" value="1" {{ old('is_archived', $hotel->is_archived) ? 'checked' : '' }}>
-                    <label class="form-label" for="is_archived" style="margin-bottom:0; cursor:pointer;">Bu Oteli Arşivle (Yayından Kaldır)</label>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" name="is_archived" id="is_archived" value="1" {{ old('is_archived', $hotel->is_archived) ? 'checked' : '' }}>
+                        <label class="form-label" for="is_archived" style="margin-bottom:0; cursor:pointer;">Bu Oteli Arşivle (Yayından Kaldır)</label>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" name="show_video_on_cover" id="show_video_on_cover" value="1" {{ old('show_video_on_cover', $hotel->show_video_on_cover) ? 'checked' : '' }}>
+                        <label class="form-label" for="show_video_on_cover" style="margin-bottom:0; cursor:pointer;">Kapakta Video Göster (Kapak resmi yerine video oynatır)</label>
+                    </div>
                 </div>
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
                 <div>
-                    <label class="form-label">Video Değiştir (MP4 / MOV)</label>
+                    <label class="form-label">Video Yükle / Değiştir (MP4 / MOV)</label>
                     <input type="file" name="video_file" id="video_file" accept="video/*" class="form-control">
                     @if($hotel->video_file)
                         <span style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Mevcut: {{ $hotel->video_file }}</span>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+                            <input type="checkbox" name="delete_video_file" id="delete_video_file" value="1">
+                            <label class="form-label" for="delete_video_file" style="margin-bottom: 0; color: #ef4444; cursor: pointer; font-weight: 500;">
+                                <i class="fas fa-trash-alt"></i> Mevcut Videoyu Sil
+                            </label>
+                        </div>
                     @endif
                 </div>
                 <div>

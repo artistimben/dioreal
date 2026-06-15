@@ -228,7 +228,25 @@
                 <div class="card-grid">
                     @foreach($hotels as $otel)
                         <div class="card reveal visible">
-                            <div class="card-img" style="background-image:url('{{ asset($otel->img) }}')"></div>
+                            <div class="card-img" style="position: relative; overflow: hidden; background-image: none;">
+                                @if($otel->show_video_on_cover && (!empty($otel->video_file) || !empty($otel->video_url)))
+                                    @if(!empty($otel->video_file))
+                                        <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+                                            <source src="{{ asset($otel->video_file) }}" type="video/mp4">
+                                        </video>
+                                    @elseif(!empty($otel->video_url))
+                                        @php
+                                            $embedUrl = $otel->video_url;
+                                            if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/', $otel->video_url, $matches)) {
+                                                $embedUrl = 'https://www.youtube.com/embed/' . $matches[1] . '?autoplay=1&mute=1&loop=1&playlist=' . $matches[1] . '&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3';
+                                            }
+                                        @endphp
+                                        <iframe src="{{ $embedUrl }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none; transform: scale(1.35); position: absolute; inset: 0; border: none;"></iframe>
+                                    @endif
+                                @else
+                                    <div style="background-image:url('{{ asset($otel->img) }}'); width: 100%; height: 100%; background-size: cover; background-position: center; position: absolute; inset: 0;"></div>
+                                @endif
+                            </div>
                             <div class="card-body">
                                 <span class="card-tag lang-text-tr">{{ $otel->tag["tr"] ?? "" }}</span>
                                 <span class="card-tag lang-text-en">{{ $otel->tag["en"] ?? "" }}</span>
@@ -259,7 +277,25 @@
                 <div class="card-grid">
                     @foreach($restaurants as $restoran)
                         <div class="card reveal visible">
-                            <div class="card-img" style="background-image:url('{{ asset($restoran->img) }}')"></div>
+                            <div class="card-img" style="position: relative; overflow: hidden; background-image: none;">
+                                @if($restoran->show_video_on_cover && (!empty($restoran->video_file) || !empty($restoran->video_url)))
+                                    @if(!empty($restoran->video_file))
+                                        <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+                                            <source src="{{ asset($restoran->video_file) }}" type="video/mp4">
+                                        </video>
+                                    @elseif(!empty($restoran->video_url))
+                                        @php
+                                            $embedUrl = $restoran->video_url;
+                                            if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/', $restoran->video_url, $matches)) {
+                                                $embedUrl = 'https://www.youtube.com/embed/' . $matches[1] . '?autoplay=1&mute=1&loop=1&playlist=' . $matches[1] . '&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3';
+                                            }
+                                        @endphp
+                                        <iframe src="{{ $embedUrl }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none; transform: scale(1.35); position: absolute; inset: 0; border: none;"></iframe>
+                                    @endif
+                                @else
+                                    <div style="background-image:url('{{ asset($restoran->img) }}'); width: 100%; height: 100%; background-size: cover; background-position: center; position: absolute; inset: 0;"></div>
+                                @endif
+                            </div>
                             <div class="card-body">
                                 <span class="card-tag lang-text-tr">{{ $restoran->tag["tr"] ?? "" }}</span>
                                 <span class="card-tag lang-text-en">{{ $restoran->tag["en"] ?? "" }}</span>

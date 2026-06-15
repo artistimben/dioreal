@@ -161,10 +161,16 @@
 
                     <div style="margin-top: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                         <div>
-                            <label class="form-label">Video Değiştir (MP4 / MOV)</label>
+                            <label class="form-label">Video Yükle / Değiştir (MP4 / MOV)</label>
                             <input type="file" name="video_file" id="video_file" accept="video/*" class="form-control">
                             @if($destination->video_file)
                                 <span style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Mevcut: {{ $destination->video_file }}</span>
+                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+                                    <input type="checkbox" name="delete_video_file" id="delete_video_file" value="1">
+                                    <label class="form-label" for="delete_video_file" style="margin-bottom: 0; color: #ef4444; cursor: pointer; font-weight: 500;">
+                                        <i class="fas fa-trash-alt"></i> Mevcut Videoyu Sil
+                                    </label>
+                                </div>
                             @endif
                         </div>
                         <div>

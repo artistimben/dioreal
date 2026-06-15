@@ -107,6 +107,14 @@ class GuideController extends Controller
             $data['img'] = $request->input('img_url');
         }
 
+        // Handle video deletion
+        if ($request->has('delete_video_file') && $request->input('delete_video_file') == '1') {
+            if ($guide->video_file && File::exists(public_path($guide->video_file))) {
+                File::delete(public_path($guide->video_file));
+            }
+            $data['video_file'] = null;
+        }
+
         // Handle video upload
         if ($request->hasFile('video_file')) {
             $data['video_file'] = $this->handleFileUpload($request->file('video_file'), 'uploads/videos');

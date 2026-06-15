@@ -84,7 +84,25 @@
         <div class="card-grid" id="restCardsGrid">
             @foreach($restoranlar as $r)
                 <div class="card reveal visible">
-                    <div class="card-img" style="background-image:url('{{ asset($r->img) }}')"></div>
+                    <div class="card-img" style="position: relative; overflow: hidden; background-image: none;">
+                        @if($r->show_video_on_cover && (!empty($r->video_file) || !empty($r->video_url)))
+                            @if(!empty($r->video_file))
+                                <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+                                    <source src="{{ asset($r->video_file) }}" type="video/mp4">
+                                </video>
+                            @elseif(!empty($r->video_url))
+                                @php
+                                    $embedUrl = $r->video_url;
+                                    if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/', $r->video_url, $matches)) {
+                                        $embedUrl = 'https://www.youtube.com/embed/' . $matches[1] . '?autoplay=1&mute=1&loop=1&playlist=' . $matches[1] . '&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3';
+                                    }
+                                @endphp
+                                <iframe src="{{ $embedUrl }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none; transform: scale(1.35); position: absolute; inset: 0; border: none;"></iframe>
+                            @endif
+                        @else
+                            <div style="background-image:url('{{ asset($r->img) }}'); width: 100%; height: 100%; background-size: cover; background-position: center; position: absolute; inset: 0;"></div>
+                        @endif
+                    </div>
                     <div class="card-body">
                         <span class="card-tag lang-text-tr">{{ $r->tag["tr"] ?? "" }}</span>
                         <span class="card-tag lang-text-en">{{ $r->tag["en"] ?? "" }}</span>

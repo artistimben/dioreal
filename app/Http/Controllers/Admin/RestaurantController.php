@@ -56,6 +56,7 @@ class RestaurantController extends Controller
         $data = $request->only(['name', 'tag', 'desc', 'long_desc', 'destination_id', 'order', 'video_url']);
         $data['order'] = $data['order'] ?? 0;
         $data['is_archived'] = $request->has('is_archived') ? 1 : 0;
+        $data['show_video_on_cover'] = $request->has('show_video_on_cover') ? 1 : 0;
 
         // Handle cover image
         if ($request->hasFile('img_file')) {
@@ -113,6 +114,7 @@ class RestaurantController extends Controller
         $data = $request->only(['name', 'tag', 'desc', 'long_desc', 'destination_id', 'order', 'video_url']);
         $data['order'] = $data['order'] ?? 0;
         $data['is_archived'] = $request->has('is_archived') ? 1 : 0;
+        $data['show_video_on_cover'] = $request->has('show_video_on_cover') ? 1 : 0;
 
         // Handle cover image
         if ($request->hasFile('img_file')) {
@@ -121,6 +123,14 @@ class RestaurantController extends Controller
             $data['img'] = $request->input('cover_image');
         } elseif ($request->filled('img_url')) {
             $data['img'] = $request->input('img_url');
+        }
+
+        // Handle video deletion
+        if ($request->has('delete_video_file') && $request->input('delete_video_file') == '1') {
+            if ($restaurant->video_file && File::exists(public_path($restaurant->video_file))) {
+                File::delete(public_path($restaurant->video_file));
+            }
+            $data['video_file'] = null;
         }
 
         // Handle video upload
